@@ -9,8 +9,8 @@ namespace DeliveryService.BLL.Interfaces
 {
     public interface IRoutesAdminService
     {
-        void CreateRoute(RouteDTO route);
         void UpdateRoute(RouteDTO route);
+        void CreateRoute(RouteDTO route);
         void DeleteRoute(int routeId);
     }
 }

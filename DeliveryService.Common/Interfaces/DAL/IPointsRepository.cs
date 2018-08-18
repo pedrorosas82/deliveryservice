@@ -11,8 +11,7 @@ namespace DeliveryService.Common.Interfaces.DAL
         IEnumerable<PointDTO> GetPoints();
         PointDTO GetPoint(int id);
 
-        void CreatePoint(PointDTO point);
+        void SavePoint(PointDTO point);
         void DeletePoint(int pointId);
-        void UpdatePoint(PointDTO point);
     }
 }

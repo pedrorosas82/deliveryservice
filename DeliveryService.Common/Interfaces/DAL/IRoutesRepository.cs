@@ -11,8 +11,7 @@ namespace DeliveryService.Common.Interfaces.DAL
         IEnumerable<RouteDTO> GetRoutes();
         RouteDTO GetRoute(int routeId);
 
-        void CreateRoute(RouteDTO route);
-        void UpdateRoute(RouteDTO route);
+        void SaveRoute(RouteDTO route);
         void DeleteRoute(int routeId);
     }
 }

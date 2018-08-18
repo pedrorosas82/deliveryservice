@@ -1,7 +1,9 @@
+using AutoMapper;
 using DeliveryService.BLL;
 using DeliveryService.BLL.Interfaces;
 using DeliveryService.Common.Interfaces.DAL;
 using DeliveryService.DAL.Repositories;
+using DeliveryService.WebApi.App_Start;
 using System;
 
 using Unity;
@@ -19,8 +21,15 @@ namespace DeliveryService.WebApi
           {
               var container = new UnityContainer();
               RegisterTypes(container);
+              RegisterInstances(container);
+
               return container;
           });
+
+        private static void RegisterInstances(UnityContainer container)
+        {
+            container.RegisterInstance<IMapper>(AutoMapperConfig.GetMapper());
+        }
 
         /// <summary>
         /// Configured Unity Container.

@@ -20,17 +20,31 @@ namespace DeliveryService.BLL
 
         public void CreatePoint(PointDTO point)
         {
-            this.pointsRepository.CreatePoint(point);
+            if (point.Id == 0)
+            {
+                this.pointsRepository.SavePoint(point);
+            }
+            else
+            {
+                throw new ApplicationException("Point Id is assigned automatically. Cannot create point with the Id assigned.");
+            }
+        }
+
+        public void UpdatePoint(PointDTO point)
+        {
+            if (point.Id > 0)
+            {
+                this.pointsRepository.SavePoint(point);
+            }
+            else
+            {
+                throw new ApplicationException("Point Id must be specified.");
+            }
         }
 
         public void DeletePoint(int pointId)
         {
             this.pointsRepository.DeletePoint(pointId);
-        }
-
-        public void UpdatePoint(PointDTO point)
-        {
-            this.pointsRepository.UpdatePoint(point);
         }
     }
 }

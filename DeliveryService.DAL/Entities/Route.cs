@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace DeliveryService.DAL.Entities
 
         public Point Origin { get; set; }
         public Point Destination { get; set; }
+
         public int Cost { get; set; }
         public int Minutes { get; set; }
     }
