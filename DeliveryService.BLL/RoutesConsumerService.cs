@@ -23,14 +23,14 @@ namespace DeliveryService.BLL
             this.pointsRepository = pointsRepository;
         }
 
-        public IEnumerable<PathInfoDTO> GetNonDirectPaths(int originId, int destinationId)
+        public IEnumerable<PathInfoDTO> GetPaths(int originId, int destinationId, int minimumNodes)
         {
             IEnumerable<PathInfoDTO> paths = new List<PathInfoDTO>();
 
             IEnumerable<RouteDTO> allRoutes = this.routesRepository.GetRoutes();
             RoutesGraph routesGraph = new RoutesGraph(allRoutes);
 
-            IEnumerable<GraphPath> graphPaths = routesGraph.GetAllPaths(originId, destinationId, 3);
+            IEnumerable<GraphPath> graphPaths = routesGraph.GetAllPaths(originId, destinationId, minimumNodes);
             IEnumerable<PointDTO> allPoints = this.pointsRepository.GetPoints();
 
             return this.buildPathInfoList(graphPaths, allPoints, allRoutes);

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.BLL.Helpers
 {
-    public class RoutesGraph
+    internal class RoutesGraph
     {
         private IDictionary<int, IList<GraphWeightedNode>> routesGraph = new Dictionary<int, IList<GraphWeightedNode>>();
 
-        public RoutesGraph(IEnumerable<RouteDTO> allRoutes)
+        internal RoutesGraph(IEnumerable<RouteDTO> allRoutes)
         {
             foreach (RouteDTO route in allRoutes)
             {
@@ -45,12 +45,12 @@ namespace DeliveryService.BLL.Helpers
             }
         }
 
-        public IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId)
+        internal IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId)
         {
             return GetAllPaths(originId, destinationId, 2);
         }
 
-        public IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId, int minimumPathNodes)
+        internal IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId, int minimumPathNodes)
         {
             // https://medium.com/omarelgabrys-blog/path-finding-algorithms-f65a8902eb40
             // https://www.geeksforgeeks.org/print-paths-given-source-destination-using-bfs/

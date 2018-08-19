@@ -55,7 +55,7 @@ namespace DeliveryService.WebApi.Controllers
         [HttpGet]
         public IEnumerable<PathInfoDTO> GetNonDirectPaths(int originId, int destinationId)
         {
-            return this.routesConsumerService.GetNonDirectPaths(originId, destinationId);
+            return this.routesConsumerService.GetPaths(originId, destinationId, 3);
         }
     }
 }
