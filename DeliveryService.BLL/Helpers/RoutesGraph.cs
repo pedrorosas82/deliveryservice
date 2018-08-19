@@ -1,4 +1,5 @@
-﻿using DeliveryService.Common.DTOs;
+﻿using DeliveryService.BLL.Models;
+using DeliveryService.Common.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace DeliveryService.BLL.Helpers
 {
     public class RoutesGraph
     {
-        private IDictionary<int, IList<int>> routesGraph = new Dictionary<int, IList<int>>();
+        private IDictionary<int, IList<GraphWeightedNode>> routesGraph = new Dictionary<int, IList<GraphWeightedNode>>();
 
         public RoutesGraph(IEnumerable<RouteDTO> allRoutes)
         {
@@ -17,37 +18,55 @@ namespace DeliveryService.BLL.Helpers
             {
                 if (this.routesGraph.ContainsKey(route.OriginId))
                 {
-                    routesGraph[route.OriginId].Add(route.DestinationId);
+                    routesGraph[route.OriginId].Add(new GraphWeightedNode()
+                    {
+                        PointId = route.DestinationId,
+                        Cost = route.Cost,
+                        Minutes = route.Minutes
+                    });
                 }
                 else
                 {
-                    routesGraph.Add(route.OriginId, new List<int>() { route.DestinationId });
+                    routesGraph.Add(route.OriginId, new List<GraphWeightedNode>()
+                    {
+                        new GraphWeightedNode()
+                        {
+                            PointId = route.DestinationId,
+                            Cost = route.Cost,
+                            Minutes = route.Minutes
+                        }
+                    });
                 }
 
                 if (!this.routesGraph.ContainsKey(route.DestinationId))
                 {
-                    routesGraph.Add(route.DestinationId, new List<int>());
+                    routesGraph.Add(route.DestinationId, new List<GraphWeightedNode>());
                 }
             }
         }
 
-        public IEnumerable<PathDTO> GetAllPaths(int originId, int destinationId)
+        public IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId)
         {
             return GetAllPaths(originId, destinationId, 2);
         }
 
-        public IEnumerable<PathDTO> GetAllPaths(int originId, int destinationId, int minimumPathNodes)
+        public IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId, int minimumPathNodes)
         {
             // https://medium.com/omarelgabrys-blog/path-finding-algorithms-f65a8902eb40
             // https://www.geeksforgeeks.org/print-paths-given-source-destination-using-bfs/
 
-            IList<PathDTO> allPaths = new List<PathDTO>();
-            Queue<PathDTO> queue = new Queue<PathDTO>();
-            queue.Enqueue(new PathDTO() { PointIds = new List<int>() { originId } });
+            IList<GraphPath> allPaths = new List<GraphPath>();
+            Queue<GraphPath> queue = new Queue<GraphPath>();
+            queue.Enqueue(new GraphPath()
+            {
+                PointIds = new List<int>() { originId },
+                Cost = 0,
+                Minutes = 0
+            });
 
             while (queue.Count > 0)
             {
-                PathDTO currentPath = queue.Dequeue();
+                GraphPath currentPath = queue.Dequeue();
 
                 if (currentPath.PointIds.Last() == destinationId)
                 {
@@ -57,12 +76,14 @@ namespace DeliveryService.BLL.Helpers
                     }
                 }
 
-                foreach (int neighbour in this.routesGraph[currentPath.PointIds.Last()])
+                foreach (GraphWeightedNode neighbour in this.routesGraph[currentPath.PointIds.Last()])
                 {
-                    if (!currentPath.PointIds.Contains(neighbour))
+                    if (!currentPath.PointIds.Contains(neighbour.PointId))
                     {
-                        PathDTO newPath = new PathDTO(currentPath);
-                        newPath.PointIds.Add(neighbour);
+                        GraphPath newPath = new GraphPath(currentPath);
+                        newPath.PointIds.Add(neighbour.PointId);
+                        newPath.Cost = currentPath.Cost + neighbour.Cost;
+                        newPath.Minutes = currentPath.Minutes + neighbour.Minutes;
 
                         queue.Enqueue(newPath);
                     }

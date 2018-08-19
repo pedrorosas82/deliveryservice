@@ -55,6 +55,7 @@ namespace DeliveryService.DAL.Repositories
                         {
                             Id = r.Id,
                             Cost = r.Cost,
+                            Minutes = r.Minutes,
                             OriginId = r.Origin.Id,
                             DestinationId = r.Destination.Id,
                             OriginName = r.Origin.Name,

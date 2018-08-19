@@ -1,5 +1,6 @@
 ﻿using DeliveryService.BLL.Helpers;
 using DeliveryService.BLL.Interfaces;
+using DeliveryService.BLL.Models;
 using DeliveryService.Common;
 using DeliveryService.Common.DTOs;
 using DeliveryService.Common.Interfaces.DAL;
@@ -29,10 +30,10 @@ namespace DeliveryService.BLL
             IEnumerable<RouteDTO> allRoutes = this.routesRepository.GetRoutes();
             RoutesGraph routesGraph = new RoutesGraph(allRoutes);
 
-            IEnumerable<PathDTO> pathDTOs = routesGraph.GetAllPaths(originId, destinationId, 3);
+            IEnumerable<GraphPath> graphPaths = routesGraph.GetAllPaths(originId, destinationId, 3);
             IEnumerable<PointDTO> allPoints = this.pointsRepository.GetPoints();
 
-            return this.buildPathInfoList(pathDTOs, allPoints, allRoutes);
+            return this.buildPathInfoList(graphPaths, allPoints, allRoutes);
         }
 
         public RouteDTO GetRoute(int routeId)
@@ -46,15 +47,17 @@ namespace DeliveryService.BLL
         }
 
 
-        private IEnumerable<PathInfoDTO> buildPathInfoList(IEnumerable<PathDTO> pathDTOs, IEnumerable<PointDTO> allPoints, IEnumerable<RouteDTO> allRoutes)
+        private IEnumerable<PathInfoDTO> buildPathInfoList(IEnumerable<GraphPath> graphPaths, IEnumerable<PointDTO> allPoints, IEnumerable<RouteDTO> allRoutes)
         {
             IList<PathInfoDTO> pathInfos = new List<PathInfoDTO>();
 
-            foreach (PathDTO path in pathDTOs)
+            foreach (GraphPath path in graphPaths)
             {
                 PathInfoDTO pathInfo = new PathInfoDTO();
                 pathInfo.PointIds = path.PointIds;
                 pathInfo.PointNames = new List<string>();
+                pathInfo.Cost = path.Cost;
+                pathInfo.Minutes = path.Minutes;
                 
                 foreach (int pointId in path.PointIds)
                 {

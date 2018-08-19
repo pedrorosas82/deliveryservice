@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\RoutesGraph.cs" />
+    <Compile Include="Models\GraphWeightedNode.cs" />
+    <Compile Include="Models\GraphPath.cs" />
     <Compile Include="PointsAdminService.cs" />
     <Compile Include="PointsConsumerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

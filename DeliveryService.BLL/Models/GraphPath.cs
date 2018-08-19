@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryService.Common.DTOs
+namespace DeliveryService.BLL.Models
 {
-    public class PathDTO
+    public class GraphPath
     {
         public IList<int> PointIds { get; set; }
+        public int Cost { get; set; }
+        public int Minutes { get; set; }
 
-        public PathDTO()
+        public GraphPath()
         {
-            
+
         }
 
-        public PathDTO(PathDTO path)
+        public GraphPath(GraphPath path)
         {
             this.PointIds = new List<int>(path.PointIds);
         }
