@@ -53,7 +53,7 @@ namespace DeliveryService.WebApi.Controllers
         // GET api/<<controller>>/origin/1/destination/2
         [Route("api/routes/origin/{originId}/destination/{destinationId}")]
         [HttpGet]
-        public IEnumerable<PathDTO> GetNonDirectPaths(int originId, int destinationId)
+        public IEnumerable<PathInfoDTO> GetNonDirectPaths(int originId, int destinationId)
         {
             return this.routesConsumerService.GetNonDirectPaths(originId, destinationId);
         }

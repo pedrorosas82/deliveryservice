@@ -40,8 +40,6 @@ namespace DeliveryService.BLL.Helpers
             Queue<PathDTO> queue = new Queue<PathDTO>();
             queue.Enqueue(new PathDTO() { PointIds = new List<int>() { originId } });
 
-            HashSet<int> visitedNodes = new HashSet<int>();
-
             while (queue.Count > 0)
             {
                 PathDTO currentPath = queue.Dequeue();

@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Common.DTOs
 {
-    public class PathDTO
+    public class PathInfoDTO
     {
         public IList<int> PointIds { get; set; }
+        public IList<string> PointNames { get; set; }
+        public int Cost { get; set; }
+        public int Minutes { get; set; }
 
-        public PathDTO()
+        public PathInfoDTO()
         {
             
-        }
-
-        public PathDTO(PathDTO path)
-        {
-            this.PointIds = new List<int>(path.PointIds);
         }
     }
 }

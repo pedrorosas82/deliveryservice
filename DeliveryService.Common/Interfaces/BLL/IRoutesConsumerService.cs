@@ -11,6 +11,6 @@ namespace DeliveryService.BLL.Interfaces
     {
         IEnumerable<RouteDTO> GetRoutes();
         RouteDTO GetRoute(int routeId);
-        IEnumerable<PathDTO> GetNonDirectPaths(int originId, int destinationId);
+        IEnumerable<PathInfoDTO> GetNonDirectPaths(int originId, int destinationId);
     }
 }
