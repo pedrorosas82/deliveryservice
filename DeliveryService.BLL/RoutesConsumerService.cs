@@ -29,7 +29,7 @@ namespace DeliveryService.BLL
             IEnumerable<RouteDTO> allRoutes = this.routesRepository.GetRoutes();
             RoutesGraph routesGraph = new RoutesGraph(allRoutes);
 
-            IEnumerable<PathDTO> pathDTOs = routesGraph.GetAllPaths(originId, destinationId);
+            IEnumerable<PathDTO> pathDTOs = routesGraph.GetAllPaths(originId, destinationId, 3);
             IEnumerable<PointDTO> allPoints = this.pointsRepository.GetPoints();
 
             return this.buildPathInfoList(pathDTOs, allPoints, allRoutes);

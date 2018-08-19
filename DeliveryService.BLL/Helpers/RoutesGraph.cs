@@ -33,6 +33,11 @@ namespace DeliveryService.BLL.Helpers
 
         public IEnumerable<PathDTO> GetAllPaths(int originId, int destinationId)
         {
+            return GetAllPaths(originId, destinationId, 2);
+        }
+
+        public IEnumerable<PathDTO> GetAllPaths(int originId, int destinationId, int minimumPathNodes)
+        {
             // https://medium.com/omarelgabrys-blog/path-finding-algorithms-f65a8902eb40
             // https://www.geeksforgeeks.org/print-paths-given-source-destination-using-bfs/
 
@@ -46,7 +51,10 @@ namespace DeliveryService.BLL.Helpers
 
                 if (currentPath.PointIds.Last() == destinationId)
                 {
-                    allPaths.Add(currentPath);
+                    if (currentPath.PointIds.Count >= minimumPathNodes)
+                    {
+                        allPaths.Add(currentPath);
+                    }
                 }
 
                 foreach (int neighbour in this.routesGraph[currentPath.PointIds.Last()])
