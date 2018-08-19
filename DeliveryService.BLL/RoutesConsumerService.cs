@@ -33,7 +33,7 @@ namespace DeliveryService.BLL
             IEnumerable<GraphPath> graphPaths = routesGraph.GetAllPaths(originId, destinationId, minimumNodes);
             IEnumerable<PointDTO> allPoints = this.pointsRepository.GetPoints();
 
-            return this.buildPathInfoList(graphPaths, allPoints, allRoutes);
+            return this.buildPathInfoList(graphPaths, allPoints);
         }
 
         public RouteDTO GetRoute(int routeId)
@@ -47,7 +47,7 @@ namespace DeliveryService.BLL
         }
 
 
-        private IEnumerable<PathInfoDTO> buildPathInfoList(IEnumerable<GraphPath> graphPaths, IEnumerable<PointDTO> allPoints, IEnumerable<RouteDTO> allRoutes)
+        private IEnumerable<PathInfoDTO> buildPathInfoList(IEnumerable<GraphPath> graphPaths, IEnumerable<PointDTO> allPoints)
         {
             IList<PathInfoDTO> pathInfos = new List<PathInfoDTO>();
 
