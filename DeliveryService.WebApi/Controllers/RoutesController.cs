@@ -1,5 +1,5 @@
 ﻿using DeliveryService.BLL.Interfaces;
-using DeliveryService.Common;
+using DeliveryService.Common.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +48,14 @@ namespace DeliveryService.WebApi.Controllers
         public void Delete(int id)
         {
             this.routesAdminService.DeleteRoute(id);
+        }
+
+        // GET api/<<controller>>/origin/1/destination/2
+        [Route("api/routes/origin/{originId}/destination/{destinationId}")]
+        [HttpGet]
+        public IEnumerable<PathDTO> GetNonDirectPaths(int originId, int destinationId)
+        {
+            return this.routesConsumerService.GetNonDirectPaths(originId, destinationId);
         }
     }
 }

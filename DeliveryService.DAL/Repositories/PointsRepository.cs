@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DeliveryService.Common;
+using DeliveryService.Common.DTOs;
 using DeliveryService.Common.Interfaces;
 using DeliveryService.Common.Interfaces.DAL;
 using DeliveryService.DAL.Entities;

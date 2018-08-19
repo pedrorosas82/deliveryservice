@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DeliveryService.Common;
+using DeliveryService.Common.DTOs;
 using DeliveryService.Common.Interfaces.DAL;
 using DeliveryService.DAL.Entities;
 using System;
@@ -32,7 +33,9 @@ namespace DeliveryService.DAL.Repositories
                             Id = r.Id,
                             Cost = r.Cost,
                             OriginId = r.Origin.Id,
-                            DestinationId = r.Destination.Id
+                            DestinationId = r.Destination.Id,
+                            OriginName = r.Origin.Name,
+                            DestinationName = r.Destination.Name
                         })
                         .Where(p => p.Id.Equals(routeId))
                         .SingleOrDefault<RouteDTO>();
@@ -53,7 +56,9 @@ namespace DeliveryService.DAL.Repositories
                             Id = r.Id,
                             Cost = r.Cost,
                             OriginId = r.Origin.Id,
-                            DestinationId = r.Destination.Id
+                            DestinationId = r.Destination.Id,
+                            OriginName = r.Origin.Name,
+                            DestinationName = r.Destination.Name
                         })
                         .ToList<RouteDTO>();
             }

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\PathDTO.cs" />
     <Compile Include="DTOs\RouteDTO.cs" />
     <Compile Include="DTOs\PointDTO.cs" />
     <Compile Include="Interfaces\BLL\IPointsAdminService.cs" />

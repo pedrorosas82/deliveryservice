@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DeliveryService.Common;
+using DeliveryService.Common.DTOs;
 using DeliveryService.DAL.Entities;
 using System;
 using System.Collections.Generic;

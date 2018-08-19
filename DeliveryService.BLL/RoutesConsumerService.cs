@@ -1,5 +1,7 @@
-﻿using DeliveryService.BLL.Interfaces;
+﻿using DeliveryService.BLL.Helpers;
+using DeliveryService.BLL.Interfaces;
 using DeliveryService.Common;
+using DeliveryService.Common.DTOs;
 using DeliveryService.Common.Interfaces.DAL;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,16 @@ namespace DeliveryService.BLL
         public RoutesConsumerService(IRoutesRepository routesRepository)
         {
             this.routesRepository = routesRepository;
+        }
+
+        public IEnumerable<PathDTO> GetNonDirectPaths(int originId, int destinationId)
+        {
+            IEnumerable<PathDTO> paths = new List<PathDTO>();
+
+            IEnumerable<RouteDTO> allRoutes = this.routesRepository.GetRoutes();
+            RoutesGraph routesGraph = new RoutesGraph(allRoutes);
+
+            return routesGraph.GetAllPaths(originId, destinationId);
         }
 
         public RouteDTO GetRoute(int routeId)

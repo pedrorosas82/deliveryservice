@@ -1,4 +1,4 @@
-﻿using DeliveryService.Common;
+﻿using DeliveryService.Common.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +11,6 @@ namespace DeliveryService.BLL.Interfaces
     {
         IEnumerable<RouteDTO> GetRoutes();
         RouteDTO GetRoute(int routeId);
+        IEnumerable<PathDTO> GetNonDirectPaths(int originId, int destinationId);
     }
 }
