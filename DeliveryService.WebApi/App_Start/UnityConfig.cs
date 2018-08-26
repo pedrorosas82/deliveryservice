@@ -1,6 +1,6 @@
 using AutoMapper;
 using DeliveryService.BLL;
-using DeliveryService.BLL.Interfaces;
+using DeliveryService.Common.Interfaces.BLL;
 using DeliveryService.Common.Interfaces.DAL;
 using DeliveryService.DAL.Repositories;
 using DeliveryService.WebApi.App_Start;

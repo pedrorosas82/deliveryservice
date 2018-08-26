@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryService.BLL.Interfaces
+namespace DeliveryService.Common.Interfaces.BLL
 {
     public interface IPointsConsumerService
     {

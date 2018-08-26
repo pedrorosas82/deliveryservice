@@ -1,6 +1,6 @@
-﻿using DeliveryService.BLL.Interfaces;
-using DeliveryService.Common;
+﻿using DeliveryService.Common;
 using DeliveryService.Common.DTOs;
+using DeliveryService.Common.Interfaces.BLL;
 using DeliveryService.Common.Interfaces.DAL;
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace DeliveryService.BLL
             }
             else
             {
-                throw new ApplicationException("Point Id is assigned automatically. Cannot create point with the Id assigned.");
+                throw new ArgumentException("Point Id is assigned automatically. Cannot create point with the Id assigned.");
             }
         }
 
@@ -39,13 +39,20 @@ namespace DeliveryService.BLL
             }
             else
             {
-                throw new ApplicationException("Point Id must be specified.");
+                throw new ArgumentException("Point Id must be an integer greater than 0.");
             }
         }
 
         public void DeletePoint(int pointId)
         {
-            this.pointsRepository.DeletePoint(pointId);
+            if (pointId > 0)
+            {
+                this.pointsRepository.DeletePoint(pointId);
+            }
+            else
+            {
+                throw new ArgumentException("Point Id must be an integer greater than 0.");
+            }
         }
     }
 }
