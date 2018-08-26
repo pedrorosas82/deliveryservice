@@ -21,7 +21,18 @@ namespace DeliveryService.BLL
 
         public PointDTO GetPoint(int pointId)
         {
-            return this.pointsRepository.GetPoint(pointId);
+            PointDTO point = null;
+
+            if (pointId > 0)
+            {
+                point = this.pointsRepository.GetPoint(pointId);
+            }
+            else
+            {
+                throw new ArgumentException("Point Id must be an integer greater than 0.");
+            }
+
+            return point;
         }
 
         public IEnumerable<PointDTO> GetPoints()

@@ -27,7 +27,7 @@ namespace DeliveryService.BLL
             }
             else
             {
-                throw new ApplicationException("Route Id is assigned automatically. Cannot create route with the Id assigned.");
+                throw new ArgumentException("Route Id is assigned automatically. Cannot create route with the Id assigned.");
             }
         }
 
@@ -39,7 +39,7 @@ namespace DeliveryService.BLL
             }
             else
             {
-                throw new ApplicationException("Route Id must be specified.");
+                throw new ArgumentException("Route Id must be an integer greater than 0.");
             }
         }
 
@@ -51,7 +51,7 @@ namespace DeliveryService.BLL
             }
             else
             {
-                throw new ApplicationException("Route Id must be specified");
+                throw new ArgumentException("Route Id must be an integer greater than 0.");
             }
         }
     }
