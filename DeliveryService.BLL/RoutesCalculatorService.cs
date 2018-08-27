@@ -1,18 +1,24 @@
-﻿using DeliveryService.BLL.Models;
-using DeliveryService.Common.DTOs;
+﻿using DeliveryService.Common.DTOs;
+using DeliveryService.Common.Interfaces.BLL;
+using DeliveryService.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryService.BLL.Helpers
+namespace DeliveryService.BLL
 {
-    internal class RoutesGraph
+    public class RoutesCalculatorService : IRoutesCalculatorService
     {
         private IDictionary<int, IList<GraphWeightedNode>> routesGraph = new Dictionary<int, IList<GraphWeightedNode>>();
 
-        internal RoutesGraph(IEnumerable<RouteDTO> allRoutes)
+        public RoutesCalculatorService()
+        {
+            
+        }
+
+        public void LoadAllRoutes(IEnumerable<RouteDTO> allRoutes)
         {
             foreach (RouteDTO route in allRoutes)
             {
@@ -45,12 +51,12 @@ namespace DeliveryService.BLL.Helpers
             }
         }
 
-        internal IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId)
+        public IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId)
         {
-            return GetAllPaths(originId, destinationId, 2);
+            return GetAllPaths(originId, destinationId, 3);
         }
 
-        internal IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId, int minimumPathNodes)
+        public IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId, int minimumPathNodes)
         {
             // https://medium.com/omarelgabrys-blog/path-finding-algorithms-f65a8902eb40
             // https://www.geeksforgeeks.org/print-paths-given-source-destination-using-bfs/

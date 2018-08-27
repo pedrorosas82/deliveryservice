@@ -60,6 +60,7 @@ namespace DeliveryService.WebApi
             container.RegisterType<IPointsConsumerService, PointsConsumerService>();
             container.RegisterType<IRoutesAdminService, RoutesAdminService>();
             container.RegisterType<IRoutesConsumerService, RoutesConsumerService>();
+            container.RegisterType<IRoutesCalculatorService, RoutesCalculatorService>();
         }
     }
 }

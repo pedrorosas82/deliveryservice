@@ -1,9 +1,8 @@
-﻿using DeliveryService.BLL.Helpers;
-using DeliveryService.BLL.Models;
-using DeliveryService.Common;
+﻿using DeliveryService.Common;
 using DeliveryService.Common.DTOs;
 using DeliveryService.Common.Interfaces.BLL;
 using DeliveryService.Common.Interfaces.DAL;
+using DeliveryService.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,21 +15,21 @@ namespace DeliveryService.BLL
     {
         private IRoutesRepository routesRepository;
         private IPointsRepository pointsRepository;
+        private IRoutesCalculatorService routesCalculator;
 
-        public RoutesConsumerService(IRoutesRepository routesRepository, IPointsRepository pointsRepository)
+        public RoutesConsumerService(IRoutesRepository routesRepository, IPointsRepository pointsRepository, IRoutesCalculatorService routesCalculator)
         {
             this.routesRepository = routesRepository;
             this.pointsRepository = pointsRepository;
+            this.routesCalculator = routesCalculator;
         }
 
         public IEnumerable<PathInfoDTO> GetPaths(int originId, int destinationId, int minimumNodes)
         {
             IEnumerable<PathInfoDTO> paths = new List<PathInfoDTO>();
 
-            IEnumerable<RouteDTO> allRoutes = this.routesRepository.GetRoutes();
-            RoutesGraph routesGraph = new RoutesGraph(allRoutes);
-
-            IEnumerable<GraphPath> graphPaths = routesGraph.GetAllPaths(originId, destinationId, minimumNodes);
+            this.routesCalculator.LoadAllRoutes(this.routesRepository.GetRoutes());
+            IEnumerable<GraphPath> graphPaths = this.routesCalculator.GetAllPaths(originId, destinationId, minimumNodes);
             IEnumerable<PointDTO> allPoints = this.pointsRepository.GetPoints();
 
             return this.buildPathInfoList(graphPaths, allPoints);
@@ -38,7 +37,18 @@ namespace DeliveryService.BLL
 
         public RouteDTO GetRoute(int routeId)
         {
-            return this.routesRepository.GetRoute(routeId);
+            RouteDTO route = null;
+
+            if (routeId > 0)
+            {
+                route = this.routesRepository.GetRoute(routeId);
+            }
+            else
+            {
+                throw new ArgumentException("Route Id must be an integer greater than 0.");
+            }
+
+            return route;
         }
 
         public IEnumerable<RouteDTO> GetRoutes()
