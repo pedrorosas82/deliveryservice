@@ -115,7 +115,7 @@ namespace DeliveryService.BLL.Tests
         }
 
         [Test]
-        public void GetNoRoutesTest()
+        public void GetPathsEmptyGraphPathsTest()
         {
             // mock getPaths
             this.routesCalculatorService.GetAllPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>())
@@ -127,6 +127,63 @@ namespace DeliveryService.BLL.Tests
 
             IEnumerable<PathInfoDTO> resultPaths = this.routesConsumerService.GetPaths(1, 2, 3);
             IEnumerable<PathInfoDTO> expectedPaths = new List<PathInfoDTO>();
+
+            // assertions
+            CollectionAssert.AreEquivalent(resultPaths, expectedPaths);
+        }
+
+        [Test]
+        public void GetPathsNullGraphPathsTest()
+        {
+            // mock getPaths
+            this.routesCalculatorService.GetAllPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>())
+                                        .Returns((IEnumerable<GraphPath>) null);
+
+            this.pointsRepository.GetPoints()
+                                 .Returns(this.getAllPoints());
+
+
+            IEnumerable<PathInfoDTO> resultPaths = this.routesConsumerService.GetPaths(1, 2, 3);
+            IEnumerable<PathInfoDTO> expectedPaths = new List<PathInfoDTO>();
+
+            // assertions
+            CollectionAssert.AreEquivalent(resultPaths, expectedPaths);
+        }
+
+        [Test]
+        public void GetPathsEmptyPointsTest()
+        {
+            // mock getPaths
+            this.routesCalculatorService.GetAllPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>())
+                                        .Returns(this.getCalculatedRoutesFromAtoB());
+
+            this.pointsRepository.GetPoints()
+                                 .Returns(new List<PointDTO>());
+
+
+            var thrownException = Assert.Throws<ArgumentException>(() => this.routesConsumerService.GetPaths(1, 2, 3));
+
+            // assertions
+            this.routesCalculatorService.DidNotReceive().GetAllPaths(Arg.Any<int>(), Arg.Any<int>());
+            Assert.That(thrownException.Message, Is.EqualTo("Origin Id 1 does not exist."));
+        }
+
+        [Test]
+        public void GetPathsNullPointsTest()
+        {
+            // mock getPaths
+            this.routesCalculatorService.GetAllPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>())
+                                        .Returns(this.getCalculatedRoutesFromAtoB());
+
+            this.pointsRepository.GetPoints()
+                                 .Returns((IEnumerable<PointDTO>)null);
+
+
+            var thrownException = Assert.Throws<ArgumentException>(() => this.routesConsumerService.GetPaths(1, 2, 3));
+
+            // assertions
+            this.routesCalculatorService.DidNotReceive().GetAllPaths(Arg.Any<int>(), Arg.Any<int>());
+            Assert.That(thrownException.Message, Is.EqualTo("Origin Id 1 does not exist."));
         }
 
 

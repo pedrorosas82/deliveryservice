@@ -29,7 +29,7 @@ namespace DeliveryService.BLL
         public IEnumerable<PathInfoDTO> GetPaths(int originId, int destinationId, int minimumNumberOfPoints)
         {
             IEnumerable<PathInfoDTO> paths = new List<PathInfoDTO>();
-            IEnumerable<PointDTO> allPoints = this.pointsRepository.GetPoints();
+            IEnumerable<PointDTO> allPoints = this.pointsRepository.GetPoints()?? new List<PointDTO>();
 
             if (!allPoints.Any(x => x.Id.Equals(originId)))
             {
@@ -41,9 +41,11 @@ namespace DeliveryService.BLL
                 throw new ArgumentException(String.Format("Destination Id {0} does not exist.", destinationId));
             }
 
-            IEnumerable<GraphPath> graphPaths = this.routesCalculator.GetAllPaths(originId, destinationId, minimumNumberOfPoints);
+            IEnumerable<GraphPath> graphPaths = this.routesCalculator.GetAllPaths(originId, destinationId, minimumNumberOfPoints)?? new List<GraphPath>();
 
-            return this.buildPathInfoList(graphPaths, allPoints);
+            paths = buildPathInfoList(graphPaths, allPoints);
+
+            return paths;
         }
 
         public RouteDTO GetRoute(int routeId)
