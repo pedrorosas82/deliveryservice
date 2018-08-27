@@ -22,15 +22,26 @@ namespace DeliveryService.BLL
             this.routesRepository = routesRepository;
             this.pointsRepository = pointsRepository;
             this.routesCalculator = routesCalculator;
-        }
-
-        public IEnumerable<PathInfoDTO> GetPaths(int originId, int destinationId, int minimumNodes)
-        {
-            IEnumerable<PathInfoDTO> paths = new List<PathInfoDTO>();
 
             this.routesCalculator.LoadAllRoutes(this.routesRepository.GetRoutes());
-            IEnumerable<GraphPath> graphPaths = this.routesCalculator.GetAllPaths(originId, destinationId, minimumNodes);
+        }
+
+        public IEnumerable<PathInfoDTO> GetPaths(int originId, int destinationId, int minimumNumberOfPoints)
+        {
+            IEnumerable<PathInfoDTO> paths = new List<PathInfoDTO>();
             IEnumerable<PointDTO> allPoints = this.pointsRepository.GetPoints();
+
+            if (!allPoints.Any(x => x.Id.Equals(originId)))
+            {
+                throw new ArgumentException(String.Format("Origin Id {0} does not exist.", originId));
+            }
+
+            if (!allPoints.Any(x => x.Id.Equals(destinationId)))
+            {
+                throw new ArgumentException(String.Format("Destination Id {0} does not exist.", destinationId));
+            }
+
+            IEnumerable<GraphPath> graphPaths = this.routesCalculator.GetAllPaths(originId, destinationId, minimumNumberOfPoints);
 
             return this.buildPathInfoList(graphPaths, allPoints);
         }
@@ -63,11 +74,13 @@ namespace DeliveryService.BLL
 
             foreach (GraphPath path in graphPaths)
             {
-                PathInfoDTO pathInfo = new PathInfoDTO();
-                pathInfo.PointIds = path.PointIds;
-                pathInfo.PointNames = new List<string>();
-                pathInfo.Cost = path.Cost;
-                pathInfo.Minutes = path.Minutes;
+                PathInfoDTO pathInfo = new PathInfoDTO()
+                {
+                    PointIds = path.PointIds,
+                    PointNames = new List<string>(),
+                    Cost = path.Cost,
+                    Minutes = path.Minutes
+                };
                 
                 foreach (int pointId in path.PointIds)
                 {

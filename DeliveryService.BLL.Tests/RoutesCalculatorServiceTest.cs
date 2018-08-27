@@ -18,13 +18,12 @@ namespace DeliveryService.BLL.Tests
         [SetUp]
         public void SetupBeforeEachTest()
         {
-            this.routesCalculatorService = new RoutesCalculatorService();
+            this.routesCalculatorService = new RoutesCalculatorService(this.getAllRoutes());
         }
 
         [Test]
         public void GetAllPathsExampleFromAtoB()
         {
-            this.routesCalculatorService.LoadAllRoutes(this.getExampleRoutesList());
             IEnumerable<GraphPath> resultPaths = this.routesCalculatorService.GetAllPaths(1, 2);
             IList<GraphPath> expectedPaths = this.getExpectedPathsFromAtoB();
 
@@ -45,7 +44,6 @@ namespace DeliveryService.BLL.Tests
         [Test]
         public void GetAllPathsMinimumLength4()
         {
-            this.routesCalculatorService.LoadAllRoutes(getExampleRoutesList());
             IEnumerable<GraphPath> graphPaths = this.routesCalculatorService.GetAllPaths(1, 2, 4);
 
             // assertions
@@ -64,7 +62,6 @@ namespace DeliveryService.BLL.Tests
         [Test]
         public void GetAllPathsMinimumLength7()
         {
-            this.routesCalculatorService.LoadAllRoutes(getExampleRoutesList());
             IEnumerable<GraphPath> graphPaths = this.routesCalculatorService.GetAllPaths(1, 2, 7);
 
             // assertions
@@ -83,7 +80,6 @@ namespace DeliveryService.BLL.Tests
         [Test]
         public void GetAllPathsNoDirectRoutes()
         {
-            this.routesCalculatorService.LoadAllRoutes(getExampleRoutesList());
             IEnumerable<GraphPath> graphPaths = this.routesCalculatorService.GetAllPaths(1, 5);
 
             // assertions
@@ -97,7 +93,7 @@ namespace DeliveryService.BLL.Tests
         }
 
 
-        private IEnumerable<RouteDTO> getExampleRoutesList()
+        private IEnumerable<RouteDTO> getAllRoutes()
         {
             IList<RouteDTO> allRoutes = new List<RouteDTO>();
 

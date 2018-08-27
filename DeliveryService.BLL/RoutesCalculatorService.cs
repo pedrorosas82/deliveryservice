@@ -15,41 +15,14 @@ namespace DeliveryService.BLL
 
         public RoutesCalculatorService()
         {
-            
+
         }
 
-        public void LoadAllRoutes(IEnumerable<RouteDTO> allRoutes)
+        public RoutesCalculatorService(IEnumerable<RouteDTO> allRoutes)
         {
-            foreach (RouteDTO route in allRoutes)
-            {
-                if (this.routesGraph.ContainsKey(route.OriginId))
-                {
-                    routesGraph[route.OriginId].Add(new GraphWeightedNode()
-                    {
-                        PointId = route.DestinationId,
-                        Cost = route.Cost,
-                        Minutes = route.Minutes
-                    });
-                }
-                else
-                {
-                    routesGraph.Add(route.OriginId, new List<GraphWeightedNode>()
-                    {
-                        new GraphWeightedNode()
-                        {
-                            PointId = route.DestinationId,
-                            Cost = route.Cost,
-                            Minutes = route.Minutes
-                        }
-                    });
-                }
-
-                if (!this.routesGraph.ContainsKey(route.DestinationId))
-                {
-                    routesGraph.Add(route.DestinationId, new List<GraphWeightedNode>());
-                }
-            }
+            this.LoadAllRoutes(allRoutes);
         }
+
 
         public IEnumerable<GraphPath> GetAllPaths(int originId, int destinationId)
         {
@@ -97,6 +70,45 @@ namespace DeliveryService.BLL
             }
 
             return allPaths;
+        }
+
+        public void LoadAllRoutes(IEnumerable<RouteDTO> allRoutes)
+        {
+            this.loadAllRoutes(allRoutes);
+        }
+
+
+        private void loadAllRoutes(IEnumerable<RouteDTO> allRoutes)
+        {
+            foreach (RouteDTO route in allRoutes)
+            {
+                if (this.routesGraph.ContainsKey(route.OriginId))
+                {
+                    routesGraph[route.OriginId].Add(new GraphWeightedNode()
+                    {
+                        PointId = route.DestinationId,
+                        Cost = route.Cost,
+                        Minutes = route.Minutes
+                    });
+                }
+                else
+                {
+                    routesGraph.Add(route.OriginId, new List<GraphWeightedNode>()
+                    {
+                        new GraphWeightedNode()
+                        {
+                            PointId = route.DestinationId,
+                            Cost = route.Cost,
+                            Minutes = route.Minutes
+                        }
+                    });
+                }
+
+                if (!this.routesGraph.ContainsKey(route.DestinationId))
+                {
+                    routesGraph.Add(route.DestinationId, new List<GraphWeightedNode>());
+                }
+            }
         }
     }
 }
