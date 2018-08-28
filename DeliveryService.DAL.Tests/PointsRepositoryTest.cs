@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using DeliveryService.Common.DTOs;
+using DeliveryService.Common.Interfaces.DAL;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +12,23 @@ namespace DeliveryService.DAL.Tests
     [TestFixture]
     public class PointsRepositoryTest
     {
+        private IPointsRepository pointsRepository;
+
         [Test]
         public void GetPointTest()
         {
 
+
+            PointDTO expectedResult = new PointDTO()
+            {
+                Id = 1,
+                Name = "A"
+            };
+
+            PointDTO result = this.pointsRepository.Get(1);
+
+            // assertions
+            
         }
 
         [Test]

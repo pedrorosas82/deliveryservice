@@ -22,7 +22,7 @@ namespace DeliveryService.DAL.Repositories
             this.typeMapper = typeMapper;
         }
 
-        public PointDTO GetPoint(int pointId)
+        public PointDTO Get(int pointId)
         {
             PointDTO point = null;
 
@@ -41,7 +41,7 @@ namespace DeliveryService.DAL.Repositories
             return point;
         }
 
-        public IEnumerable<PointDTO> GetPoints()
+        public IEnumerable<PointDTO> ListAll()
         {
             IList<PointDTO> points = new List<PointDTO>();
 
@@ -56,7 +56,7 @@ namespace DeliveryService.DAL.Repositories
             return points;
         }
 
-        public void SavePoint(PointDTO point)
+        public void Save(PointDTO point)
         {
             Point pointEntity = typeMapper.Map<PointDTO, Point>(point);
 
@@ -75,7 +75,7 @@ namespace DeliveryService.DAL.Repositories
             }
         }
 
-        public void DeletePoint(int pointId)
+        public void Delete(int pointId)
         {
             using (var context = new DeliveryServiceDbContext())
             {

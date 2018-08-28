@@ -29,7 +29,7 @@ namespace DeliveryService.BLL.Tests
             this.pointsConsumerService.GetPoints();
 
             // assertions
-            this.pointsRepository.Received().GetPoints();
+            this.pointsRepository.Received().ListAll();
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace DeliveryService.BLL.Tests
             this.pointsConsumerService.GetPoint(5);
 
             // assertions
-            this.pointsRepository.Received().GetPoint(5);
+            this.pointsRepository.Received().Get(5);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.pointsConsumerService.GetPoint(pointId));
 
             // assertions
-            this.pointsRepository.DidNotReceive().GetPoint(Arg.Any<int>());
+            this.pointsRepository.DidNotReceive().Get(Arg.Any<int>());
             Assert.That(thrownException.Message, Is.EqualTo("Point Id must be an integer greater than 0."));
         }
     }

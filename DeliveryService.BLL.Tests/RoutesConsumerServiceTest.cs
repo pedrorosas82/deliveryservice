@@ -37,7 +37,7 @@ namespace DeliveryService.BLL.Tests
             this.routesConsumerService.GetRoutes();
 
             // assertions
-            this.routesRepository.Received().GetRoutes();
+            this.routesRepository.Received().ListAll();
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace DeliveryService.BLL.Tests
             this.routesConsumerService.GetRoute(5);
 
             // assertions
-            this.routesRepository.Received().GetRoute(5);
+            this.routesRepository.Received().Get(5);
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace DeliveryService.BLL.Tests
         [Test]
         public void GetPathsNonExistingOriginTest()
         {
-            this.pointsRepository.GetPoints()
+            this.pointsRepository.ListAll()
                                  .Returns(this.getAllPoints());
 
             var thrownException = Assert.Throws<ArgumentException>(() => this.routesConsumerService.GetPaths(20, 4, 3));
@@ -77,7 +77,7 @@ namespace DeliveryService.BLL.Tests
         [Test]
         public void GetPathsNonExistingDestinationTest()
         {
-            this.pointsRepository.GetPoints()
+            this.pointsRepository.ListAll()
                                  .Returns(this.getAllPoints());
 
             var thrownException = Assert.Throws<ArgumentException>(() => this.routesConsumerService.GetPaths(1, 20, 3));
@@ -94,7 +94,7 @@ namespace DeliveryService.BLL.Tests
             this.routesCalculatorService.GetAllPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>())
                                         .Returns(this.getCalculatedRoutesFromAtoB());
 
-            this.pointsRepository.GetPoints()
+            this.pointsRepository.ListAll()
                                  .Returns(this.getAllPoints());
                                         
 
@@ -121,7 +121,7 @@ namespace DeliveryService.BLL.Tests
             this.routesCalculatorService.GetAllPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>())
                                         .Returns(new List<GraphPath>() { });
 
-            this.pointsRepository.GetPoints()
+            this.pointsRepository.ListAll()
                                  .Returns(this.getAllPoints());
 
 
@@ -139,7 +139,7 @@ namespace DeliveryService.BLL.Tests
             this.routesCalculatorService.GetAllPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>())
                                         .Returns((IEnumerable<GraphPath>) null);
 
-            this.pointsRepository.GetPoints()
+            this.pointsRepository.ListAll()
                                  .Returns(this.getAllPoints());
 
 
@@ -157,7 +157,7 @@ namespace DeliveryService.BLL.Tests
             this.routesCalculatorService.GetAllPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>())
                                         .Returns(this.getCalculatedRoutesFromAtoB());
 
-            this.pointsRepository.GetPoints()
+            this.pointsRepository.ListAll()
                                  .Returns(new List<PointDTO>());
 
 
@@ -175,7 +175,7 @@ namespace DeliveryService.BLL.Tests
             this.routesCalculatorService.GetAllPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>())
                                         .Returns(this.getCalculatedRoutesFromAtoB());
 
-            this.pointsRepository.GetPoints()
+            this.pointsRepository.ListAll()
                                  .Returns((IEnumerable<PointDTO>)null);
 
 
@@ -312,7 +312,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.routesConsumerService.GetRoute(routeId));
 
             // assertions
-            this.routesRepository.DidNotReceive().GetRoute(Arg.Any<int>());
+            this.routesRepository.DidNotReceive().Get(Arg.Any<int>());
             Assert.That(thrownException.Message, Is.EqualTo("Route Id must be an integer greater than 0."));
         }
     }

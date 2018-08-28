@@ -63,6 +63,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeliveryService.Common\DeliveryService.Common.csproj">
+      <Project>{9267d488-8e6c-46c2-961e-ad985ce5ae76}</Project>
+      <Name>DeliveryService.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeliveryService.DAL\DeliveryService.DAL.csproj">
+      <Project>{9f3ff0cb-64e6-42eb-98f3-d0100c47cf70}</Project>
+      <Name>DeliveryService.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

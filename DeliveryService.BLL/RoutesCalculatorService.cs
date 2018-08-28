@@ -13,11 +13,6 @@ namespace DeliveryService.BLL
     {
         private IDictionary<int, IList<GraphWeightedNode>> routesGraph = new Dictionary<int, IList<GraphWeightedNode>>();
 
-        public RoutesCalculatorService()
-        {
-
-        }
-
         public RoutesCalculatorService(IEnumerable<RouteDTO> allRoutes)
         {
             this.LoadAllRoutes(allRoutes);

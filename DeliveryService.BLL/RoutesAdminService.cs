@@ -23,7 +23,7 @@ namespace DeliveryService.BLL
         {
             if (route.Id == 0)
             {
-                this.routesRepository.SaveRoute(route);
+                this.routesRepository.Save(route);
             }
             else
             {
@@ -35,7 +35,7 @@ namespace DeliveryService.BLL
         {
             if (route.Id > 0)
             {
-                this.routesRepository.SaveRoute(route);
+                this.routesRepository.Save(route);
             }
             else
             {
@@ -47,7 +47,7 @@ namespace DeliveryService.BLL
         {
             if (routeId > 0)
             {
-                this.routesRepository.DeleteRoute(routeId);
+                this.routesRepository.Delete(routeId);
             }
             else
             {

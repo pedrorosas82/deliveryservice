@@ -21,7 +21,7 @@ namespace DeliveryService.DAL.Repositories
             this.typeMapper = typeMapper;
         }
 
-        public RouteDTO GetRoute(int routeId)
+        public RouteDTO Get(int routeId)
         {
             RouteDTO route = null;
 
@@ -44,7 +44,7 @@ namespace DeliveryService.DAL.Repositories
             return route;
         }
 
-        public IEnumerable<RouteDTO> GetRoutes()
+        public IEnumerable<RouteDTO> ListAll()
         {
             IList<RouteDTO> routes = new List<RouteDTO>();
 
@@ -67,7 +67,7 @@ namespace DeliveryService.DAL.Repositories
             return routes;
         }
 
-        public void SaveRoute(RouteDTO route)
+        public void Save(RouteDTO route)
         {
             using (var context = new DeliveryServiceDbContext())
             {
@@ -106,7 +106,7 @@ namespace DeliveryService.DAL.Repositories
             }
         }
 
-        public void DeleteRoute(int routeId)
+        public void Delete(int routeId)
         {
             using (var context = new DeliveryServiceDbContext())
             {

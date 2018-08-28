@@ -25,7 +25,7 @@ namespace DeliveryService.BLL
 
             if (pointId > 0)
             {
-                point = this.pointsRepository.GetPoint(pointId);
+                point = this.pointsRepository.Get(pointId);
             }
             else
             {
@@ -37,7 +37,7 @@ namespace DeliveryService.BLL
 
         public IEnumerable<PointDTO> GetPoints()
         {
-            return this.pointsRepository.GetPoints();
+            return this.pointsRepository.ListAll();
         }
     }
 }

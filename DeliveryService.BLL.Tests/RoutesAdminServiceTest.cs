@@ -38,7 +38,7 @@ namespace DeliveryService.BLL.Tests
             this.routesAdminService.CreateRoute(route);
 
             // assertions
-            this.routesRepository.Received().SaveRoute(route);
+            this.routesRepository.Received().Save(route);
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.routesAdminService.CreateRoute(route));
 
             // assertions
-            this.routesRepository.DidNotReceive().SaveRoute(Arg.Any<RouteDTO>());
+            this.routesRepository.DidNotReceive().Save(Arg.Any<RouteDTO>());
             Assert.That(thrownException.Message, Is.EqualTo("Route Id is assigned automatically. Cannot create route with the Id assigned."));
         }
 
@@ -75,7 +75,7 @@ namespace DeliveryService.BLL.Tests
             this.routesAdminService.UpdateRoute(route);
 
             // assertions
-            this.routesRepository.Received().SaveRoute(route);
+            this.routesRepository.Received().Save(route);
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace DeliveryService.BLL.Tests
             this.routesAdminService.DeleteRoute(5);
 
             // assertions
-            this.routesRepository.Received().DeleteRoute(5);
+            this.routesRepository.Received().Delete(5);
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.routesAdminService.DeleteRoute(routeId));
 
             // assertions
-            this.routesRepository.DidNotReceive().DeleteRoute(Arg.Any<int>());
+            this.routesRepository.DidNotReceive().Delete(Arg.Any<int>());
             Assert.That(thrownException.Message, Is.EqualTo("Route Id must be an integer greater than 0."));
         }
 
@@ -139,7 +139,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.routesAdminService.UpdateRoute(route));
 
             // assertions
-            this.routesRepository.DidNotReceive().SaveRoute(Arg.Any<RouteDTO>());
+            this.routesRepository.DidNotReceive().Save(Arg.Any<RouteDTO>());
             Assert.That(thrownException.Message, Is.EqualTo("Route Id must be an integer greater than 0."));
         }
     }

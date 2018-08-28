@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Common.Interfaces.DAL
 {
-    public interface IPointsRepository
+    public interface IPointsRepository : IGenericRepository<PointDTO>
     {
-        IEnumerable<PointDTO> GetPoints();
-        PointDTO GetPoint(int id);
 
-        void SavePoint(PointDTO point);
-        void DeletePoint(int pointId);
     }
 }

@@ -23,7 +23,7 @@ namespace DeliveryService.BLL
         {
             if (point.Id == 0)
             {
-                this.pointsRepository.SavePoint(point);
+                this.pointsRepository.Save(point);
             }
             else
             {
@@ -35,7 +35,7 @@ namespace DeliveryService.BLL
         {
             if (point.Id > 0)
             {
-                this.pointsRepository.SavePoint(point);
+                this.pointsRepository.Save(point);
             }
             else
             {
@@ -47,7 +47,7 @@ namespace DeliveryService.BLL
         {
             if (pointId > 0)
             {
-                this.pointsRepository.DeletePoint(pointId);
+                this.pointsRepository.Delete(pointId);
             }
             else
             {

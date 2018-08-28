@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Common.Interfaces.DAL
 {
-    public interface IRoutesRepository
+    public interface IRoutesRepository : IGenericRepository<RouteDTO>
     {
-        IEnumerable<RouteDTO> GetRoutes();
-        RouteDTO GetRoute(int routeId);
 
-        void SaveRoute(RouteDTO route);
-        void DeleteRoute(int routeId);
     }
 }

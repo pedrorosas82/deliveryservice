@@ -35,7 +35,7 @@ namespace DeliveryService.BLL.Tests
             this.pointsAdminService.CreatePoint(point);
 
             // assertions
-            this.pointsRepository.Received().SavePoint(point);
+            this.pointsRepository.Received().Save(point);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.pointsAdminService.CreatePoint(point));
 
             // assertions
-            this.pointsRepository.DidNotReceive().SavePoint(Arg.Any<PointDTO>());
+            this.pointsRepository.DidNotReceive().Save(Arg.Any<PointDTO>());
             Assert.That(thrownException.Message, Is.EqualTo("Point Id is assigned automatically. Cannot create point with the Id assigned."));
         }
 
@@ -66,7 +66,7 @@ namespace DeliveryService.BLL.Tests
             this.pointsAdminService.UpdatePoint(point);
 
             // assertions
-            this.pointsRepository.Received().SavePoint(point);
+            this.pointsRepository.Received().Save(point);
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace DeliveryService.BLL.Tests
             this.pointsAdminService.DeletePoint(5);
 
             // assertions
-            this.pointsRepository.Received().DeletePoint(5);
+            this.pointsRepository.Received().Delete(5);
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.pointsAdminService.DeletePoint(pointId));
 
             // assertions
-            this.pointsRepository.DidNotReceive().DeletePoint(Arg.Any<int>());
+            this.pointsRepository.DidNotReceive().Delete(Arg.Any<int>());
             Assert.That(thrownException.Message, Is.EqualTo("Point Id must be an integer greater than 0."));
         }
 
@@ -129,7 +129,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.pointsAdminService.UpdatePoint(point));
 
             // assertions
-            this.pointsRepository.DidNotReceive().SavePoint(Arg.Any<PointDTO>());
+            this.pointsRepository.DidNotReceive().Save(Arg.Any<PointDTO>());
             Assert.That(thrownException.Message, Is.EqualTo("Point Id must be an integer greater than 0."));
         }
     }

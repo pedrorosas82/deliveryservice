@@ -23,13 +23,13 @@ namespace DeliveryService.BLL
             this.pointsRepository = pointsRepository;
             this.routesCalculator = routesCalculator;
 
-            this.routesCalculator.LoadAllRoutes(this.routesRepository.GetRoutes());
+            this.routesCalculator.LoadAllRoutes(this.routesRepository.ListAll());
         }
 
         public IEnumerable<PathInfoDTO> GetPaths(int originId, int destinationId, int minimumNumberOfPoints)
         {
             IEnumerable<PathInfoDTO> paths = new List<PathInfoDTO>();
-            IEnumerable<PointDTO> allPoints = this.pointsRepository.GetPoints()?? new List<PointDTO>();
+            IEnumerable<PointDTO> allPoints = this.pointsRepository.ListAll()?? new List<PointDTO>();
 
             if (!allPoints.Any(x => x.Id.Equals(originId)))
             {
@@ -54,7 +54,7 @@ namespace DeliveryService.BLL
 
             if (routeId > 0)
             {
-                route = this.routesRepository.GetRoute(routeId);
+                route = this.routesRepository.Get(routeId);
             }
             else
             {
@@ -66,7 +66,7 @@ namespace DeliveryService.BLL
 
         public IEnumerable<RouteDTO> GetRoutes()
         {
-            return this.routesRepository.GetRoutes();
+            return this.routesRepository.ListAll();
         }
 
 

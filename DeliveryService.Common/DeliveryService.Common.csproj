@@ -50,6 +50,7 @@
     <Compile Include="Interfaces\BLL\IRoutesConsumerService.cs" />
     <Compile Include="Interfaces\DAL\IPointsRepository.cs" />
     <Compile Include="Interfaces\DAL\IRoutesRepository.cs" />
+    <Compile Include="Interfaces\DAL\IGenericRepository.cs" />
     <Compile Include="Models\GraphPath.cs" />
     <Compile Include="Models\GraphWeightedNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
