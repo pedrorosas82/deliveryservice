@@ -30,7 +30,14 @@ namespace DeliveryService.WebApi.Controllers
         // GET api/<controller>/5
         public PointDTO Get(int id)
         {
-            return this.pointsConsumerService.GetPoint(id);
+            PointDTO point = this.pointsConsumerService.GetPoint(id);
+
+            if (point == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return point;
         }
 
         // POST api/<controller>
