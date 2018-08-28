@@ -38,27 +38,55 @@ namespace DeliveryService.BLL.Tests
 
             // assertions
             this.routesRepository.Received().ListAll();
+
+
+            this.routesRepository.ListAll().Returns(this.getMockedRoutes());
+
+            IEnumerable<RouteDTO> routes = this.routesRepository.ListAll();
+            IEnumerable<RouteDTO> expectedResult = this.getMockedRoutes();
+
+            // assertions
+            this.routesRepository.Received().ListAll();
+            CollectionAssert.AreEqual(routes, expectedResult);
         }
 
         [Test]
         public void GetRouteTest()
         {
-            this.routesConsumerService.GetRoute(5);
+            this.routesRepository.Get(Arg.Any<int>()).Returns(this.getMockedRoutes().ElementAt(0));
+
+            RouteDTO route = this.routesConsumerService.GetRoute(5);
+            RouteDTO expectedResult = this.getMockedRoutes().ElementAt(0);
 
             // assertions
             this.routesRepository.Received().Get(5);
+            Assert.AreEqual(route, expectedResult);
         }
 
         [Test]
         public void GetRouteZeroIdTest()
         {
-            this.validateExceptionThrownOnGetRouteWithBadArgument(0);
+            this.routesRepository.Get(Arg.Any<int>()).Returns((RouteDTO)null);
+
+            RouteDTO route = this.routesConsumerService.GetRoute(0);
+            RouteDTO expectedResult = null;
+
+            // assertions
+            this.routesRepository.DidNotReceive().Get(0);
+            Assert.AreEqual(route, expectedResult);
         }
 
         [Test]
         public void GetRouteNegativeIdTest()
         {
-            this.validateExceptionThrownOnGetRouteWithBadArgument(-1);
+            this.routesRepository.Get(Arg.Any<int>()).Returns((RouteDTO)null);
+
+            RouteDTO route = this.routesRepository.Get(-1);
+            RouteDTO expectedResult = null;
+
+            // assertions
+            this.pointsRepository.DidNotReceive().Get(-1);
+            Assert.AreEqual(route, expectedResult);
         }
 
         [Test]
@@ -307,13 +335,43 @@ namespace DeliveryService.BLL.Tests
             return graphPaths;
         }
 
-        private void validateExceptionThrownOnGetRouteWithBadArgument(int routeId)
+        private IEnumerable<RouteDTO> getMockedRoutes()
         {
-            var thrownException = Assert.Throws<ArgumentException>(() => this.routesConsumerService.GetRoute(routeId));
+            return new List<RouteDTO>()
+            {
+                new RouteDTO()
+                {
+                    Id = 1,
+                    OriginId = 1,
+                    OriginName = "A",
+                    DestinationId = 2,
+                    DestinationName = "B",
+                    Cost = 2,
+                    Minutes = 10
+                },
 
-            // assertions
-            this.routesRepository.DidNotReceive().Get(Arg.Any<int>());
-            Assert.That(thrownException.Message, Is.EqualTo("Route Id must be an integer greater than 0."));
+                new RouteDTO()
+                {
+                    Id = 2,
+                    OriginId = 2,
+                    OriginName = "B",
+                    DestinationId = 3,
+                    DestinationName = "C",
+                    Cost = 1,
+                    Minutes = 40
+                },
+
+                new RouteDTO()
+                {
+                    Id = 3,
+                    OriginId = 1,
+                    OriginName = "A",
+                    DestinationId = 3,
+                    DestinationName = "C",
+                    Cost = 1,
+                    Minutes = 20
+                }
+            };
         }
     }
 }

@@ -27,10 +27,6 @@ namespace DeliveryService.BLL
             {
                 point = this.pointsRepository.Get(pointId);
             }
-            else
-            {
-                throw new ArgumentException("Point Id must be an integer greater than 0.");
-            }
 
             return point;
         }
