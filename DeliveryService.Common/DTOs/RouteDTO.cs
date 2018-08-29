@@ -11,11 +11,11 @@ namespace DeliveryService.Common.DTOs
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The route origin point is not defined.")]
         public int OriginId { get; set; }
         public string OriginName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The route destination point is not defined.")]
         public int DestinationId { get; set; }
         public string DestinationName { get; set; }
 
@@ -29,23 +29,19 @@ namespace DeliveryService.Common.DTOs
 
         public override bool Equals(object obj)
         {
-            bool isEqual = true;
+            bool isEqual = false;
 
             RouteDTO route = obj as RouteDTO;
 
             if (route != null)
             {
-                isEqual = isEqual && route.Id.Equals(this.Id);
-                isEqual = isEqual && route.OriginId.Equals(this.OriginId);
-                isEqual = isEqual && String.Equals(route.OriginName, this.OriginName);
-                isEqual = isEqual && route.DestinationId.Equals(this.DestinationId);
-                isEqual = isEqual && String.Equals(route.DestinationName, this.DestinationName);
-                isEqual = isEqual && route.Minutes.Equals(this.Minutes);
-                isEqual = isEqual && route.Cost.Equals(this.Cost);
-            }
-            else
-            {
-                isEqual = false;
+                isEqual = route.Id.Equals(this.Id) && 
+                          route.OriginId.Equals(this.OriginId) && 
+                          String.Equals(route.OriginName, this.OriginName) && 
+                          route.DestinationId.Equals(this.DestinationId) && 
+                          String.Equals(route.DestinationName, this.DestinationName) && 
+                          route.Minutes.Equals(this.Minutes) && 
+                          route.Cost.Equals(this.Cost);
             }
 
             return isEqual;

@@ -17,5 +17,22 @@ namespace DeliveryService.Common.DTOs
         {
             
         }
+
+        public override bool Equals(object obj)
+        {
+            bool isEqual = false;
+
+            PathInfoDTO path = obj as PathInfoDTO;
+
+            if (path != null)
+            {
+                isEqual = path.PointIds.SequenceEqual(this.PointIds) && 
+                          path.PointNames.SequenceEqual(this.PointNames) &&
+                          path.Cost.Equals(this.Cost) &&
+                          path.Minutes.Equals(this.Minutes);
+            }
+
+            return isEqual;
+        }
     }
 }

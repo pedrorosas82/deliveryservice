@@ -148,6 +148,27 @@ namespace DeliveryService.WebApi.Tests
         }
 
         [Test]
+        public void PostInvalidRouteStateTest()
+        {
+            RouteDTO mockedRoute = this.getMockedRoutes().ElementAt(0);
+            this.routesAdminService.CreateRoute(Arg.Any<RouteDTO>()).Returns(mockedRoute);
+            this.routesController.ModelState.AddModelError("Name", "Error Message.");
+
+            RouteDTO route = new RouteDTO()
+            {
+                Cost = 10
+            };
+
+            IHttpActionResult actionResult = this.routesController.Post(route);
+
+            // assertions
+            this.routesAdminService.DidNotReceive().CreateRoute(route);
+
+            InvalidModelStateResult invalidModelStateResult = actionResult as InvalidModelStateResult;
+            Assert.IsNotNull(invalidModelStateResult);
+        }
+
+        [Test]
         public void PutRouteTest()
         {
             RouteDTO mockedRoute = this.getMockedRoutes().ElementAt(0);
@@ -203,6 +224,28 @@ namespace DeliveryService.WebApi.Tests
         }
 
         [Test]
+        public void PutInvalidRouteStateTest()
+        {
+            RouteDTO mockedRoute = this.getMockedRoutes().ElementAt(0);
+            this.routesAdminService.UpdateRoute(Arg.Any<RouteDTO>()).Returns(mockedRoute);
+            this.routesController.ModelState.AddModelError("Name", "Error Message.");
+
+            RouteDTO route = new RouteDTO()
+            {
+                Id = 1,
+                Cost = 10
+            };
+
+            IHttpActionResult actionResult = this.routesController.Put(route);
+
+            // assertions
+            this.routesAdminService.DidNotReceive().UpdateRoute(route);
+
+            InvalidModelStateResult invalidModelStateResult = actionResult as InvalidModelStateResult;
+            Assert.IsNotNull(invalidModelStateResult);
+        }
+
+        [Test]
         public void DeleteRouteTest()
         {
             this.routesAdminService.When(x => x.DeleteRoute(Arg.Any<int>()))
@@ -214,6 +257,58 @@ namespace DeliveryService.WebApi.Tests
             this.routesAdminService.Received().DeleteRoute(10);
         }
 
+        [Test]
+        public void DeleteRouteInvalidIdTest()
+        {
+            this.routesAdminService.When(x => x.DeleteRoute(Arg.Any<int>()))
+                                   .Do(x => { return; });
+
+            IHttpActionResult actionResult = this.routesController.Delete(-1);
+
+            // assertions
+            BadRequestErrorMessageResult badRequestMessage = actionResult as BadRequestErrorMessageResult;
+            Assert.IsNotNull(badRequestMessage);
+            Assert.AreEqual(badRequestMessage.Message, "Route Id must be greater than 0.");
+        }
+
+        [Test]
+        public void GetNonDirectRoutesTest()
+        {
+            this.routesConsumerService.GetPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>()).Returns(this.getMockedPaths());
+
+            IEnumerable<PathInfoDTO> resultPaths = this.routesController.GetNonDirectPaths(1, 2);
+            IEnumerable<PathInfoDTO> expectedResult = this.getMockedPaths();
+
+            // assertions
+            this.routesConsumerService.Received().GetPaths(1, 2, 3);
+            CollectionAssert.AreEquivalent(resultPaths, expectedResult);
+        }
+
+        [Test]
+        public void GetNonDirectRoutesEmptyListTest()
+        {
+            this.routesConsumerService.GetPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>()).Returns(new List<PathInfoDTO>());
+
+            IEnumerable<PathInfoDTO> resultPaths = this.routesController.GetNonDirectPaths(1, 2);
+            IEnumerable<PathInfoDTO> expectedResult = new List<PathInfoDTO>();
+
+            // assertions
+            this.routesConsumerService.Received().GetPaths(1, 2, 3);
+            CollectionAssert.AreEquivalent(resultPaths, expectedResult);
+        }
+
+        [Test]
+        public void GetNonDirectRoutesNullListTest()
+        {
+            this.routesConsumerService.GetPaths(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>()).Returns((IEnumerable<PathInfoDTO>)null);
+
+            IEnumerable<PathInfoDTO> resultPaths = this.routesController.GetNonDirectPaths(1, 2);
+            IEnumerable<PathInfoDTO> expectedResult = new List<PathInfoDTO>();
+
+            // assertions
+            this.routesConsumerService.Received().GetPaths(1, 2, 3);
+            CollectionAssert.AreEquivalent(resultPaths, expectedResult);
+        }
 
 
         private IEnumerable<RouteDTO> getMockedRoutes()
@@ -251,6 +346,36 @@ namespace DeliveryService.WebApi.Tests
                     DestinationName = "C",
                     Cost = 40,
                     Minutes = 50
+                }
+            };
+        }
+
+        private IEnumerable<PathInfoDTO> getMockedPaths()
+        {
+            return new List<PathInfoDTO>()
+            {
+                new PathInfoDTO()
+                {
+                    PointIds = new List<int>() { 1, 3, 2 },
+                    Cost = 10,
+                    Minutes = 30,
+                    PointNames = new List<string>() { "A", "C", "B" }
+                },
+
+                new PathInfoDTO()
+                {
+                    PointIds = new List<int>() { 1, 5, 4, 2 },
+                    Cost = 5,
+                    Minutes = 20,
+                    PointNames = new List<string>() { "A", "E", "D", "B" }
+                },
+
+                new PathInfoDTO()
+                {
+                    PointIds = new List<int>() { 1, 8, 6, 2 },
+                    Cost = 25,
+                    Minutes = 65,
+                    PointNames = new List<string>() { "A", "H", "F", "B" }
                 }
             };
         }

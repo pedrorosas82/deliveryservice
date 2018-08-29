@@ -51,12 +51,12 @@ namespace DeliveryService.WebApi.Controllers
         // POST api/<controller>
         public IHttpActionResult Post([FromBody]PointDTO point)
         {
-            IHttpActionResult actionResult = null;
-
             if (point.Id > 0)
             {
                 return BadRequest("Point Id cannot be defined for new entity.");
             }
+
+            IHttpActionResult actionResult = BadRequest();
 
             if (ModelState.IsValid)
             {
@@ -74,12 +74,12 @@ namespace DeliveryService.WebApi.Controllers
         // PUT api/<controller>/5
         public IHttpActionResult Put([FromBody]PointDTO point)
         {
-            IHttpActionResult actionResult = null;
-
             if (point.Id <= 0)
             {
                 return BadRequest("Point Id must be greater than 0.");
             }
+
+            IHttpActionResult actionResult = BadRequest();
 
             if (ModelState.IsValid)
             {
@@ -98,14 +98,15 @@ namespace DeliveryService.WebApi.Controllers
         // DELETE api/<controller>/5
         public IHttpActionResult Delete(int id)
         {
-            IHttpActionResult actionResult = null;
-
             if (id <= 0)
             {
                 return BadRequest("Point Id must be greater than 0.");
             }
 
+            IHttpActionResult actionResult = BadRequest();
+
             this.pointsAdminService.DeletePoint(id);
+            actionResult = Ok();
 
             return actionResult;
         }

@@ -119,7 +119,7 @@ namespace DeliveryService.WebApi.Tests
         public void PostInvalidPointTest()
         {
             PointDTO mockedPoint = this.getMockedPoints().ElementAt(0);
-            this.pointsAdminService.UpdatePoint(Arg.Any<PointDTO>()).Returns(mockedPoint);
+            this.pointsAdminService.CreatePoint(Arg.Any<PointDTO>()).Returns(mockedPoint);
 
             PointDTO point = new PointDTO()
             {
@@ -135,6 +135,27 @@ namespace DeliveryService.WebApi.Tests
 
             Assert.IsNotNull(badRequestMessage);
             Assert.AreEqual(badRequestMessage.Message, "Point Id cannot be defined for new entity.");
+        }
+
+        [Test]
+        public void PostInvalidPointStateTest()
+        {
+            PointDTO mockedPoint = this.getMockedPoints().ElementAt(0);
+            this.pointsAdminService.CreatePoint(Arg.Any<PointDTO>()).Returns(mockedPoint);
+            this.pointsController.ModelState.AddModelError("Name", "Error Message.");
+
+            PointDTO point = new PointDTO()
+            {
+                Name = "A"
+            };
+
+            IHttpActionResult actionResult = this.pointsController.Post(point);
+
+            // assertions
+            this.pointsAdminService.DidNotReceive().CreatePoint(point);
+
+            InvalidModelStateResult invalidModelStateResult = actionResult as InvalidModelStateResult;
+            Assert.IsNotNull(invalidModelStateResult);
         }
 
         [Test]
@@ -182,6 +203,28 @@ namespace DeliveryService.WebApi.Tests
         }
 
         [Test]
+        public void PutInvalidPointStateTest()
+        {
+            PointDTO mockedPoint = this.getMockedPoints().ElementAt(0);
+            this.pointsAdminService.UpdatePoint(Arg.Any<PointDTO>()).Returns(mockedPoint);
+            this.pointsController.ModelState.AddModelError("Name", "Error Message.");
+
+            PointDTO point = new PointDTO()
+            {
+                Id = 1,
+                Name = "A"
+            };
+
+            IHttpActionResult actionResult = this.pointsController.Put(point);
+
+            // assertions
+            this.pointsAdminService.DidNotReceive().UpdatePoint(point);
+
+            InvalidModelStateResult invalidModelStateResult = actionResult as InvalidModelStateResult;
+            Assert.IsNotNull(invalidModelStateResult);
+        }
+
+        [Test]
         public void DeletePointTest()
         {
             this.pointsAdminService.When(x => x.DeletePoint(Arg.Any<int>()))
@@ -193,6 +236,19 @@ namespace DeliveryService.WebApi.Tests
             this.pointsAdminService.Received().DeletePoint(10);
         }
 
+        [Test]
+        public void DeletePointInvalidIdTest()
+        {
+            this.pointsAdminService.When(x => x.DeletePoint(Arg.Any<int>()))
+                                   .Do(x => { return; });
+
+            IHttpActionResult actionResult = this.pointsController.Delete(-1);
+
+            // assertions
+            BadRequestErrorMessageResult badRequestMessage = actionResult as BadRequestErrorMessageResult;
+            Assert.IsNotNull(badRequestMessage);
+            Assert.AreEqual(badRequestMessage.Message, "Point Id must be greater than 0.");
+        }
 
 
         private IEnumerable<PointDTO> getMockedPoints()
