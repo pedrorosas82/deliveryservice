@@ -56,7 +56,7 @@ namespace DeliveryService.DAL.Repositories
             return points;
         }
 
-        public void Save(PointDTO point)
+        public PointDTO Save(PointDTO point)
         {
             Point pointEntity = typeMapper.Map<PointDTO, Point>(point);
 
@@ -73,6 +73,8 @@ namespace DeliveryService.DAL.Repositories
                 
                 context.SaveChanges();
             }
+
+            return typeMapper.Map<Point, PointDTO>(pointEntity);
         }
 
         public void Delete(int pointId)

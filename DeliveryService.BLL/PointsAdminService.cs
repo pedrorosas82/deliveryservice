@@ -19,28 +19,36 @@ namespace DeliveryService.BLL
             this.pointsRepository = pointsRepository;
         }
 
-        public void CreatePoint(PointDTO point)
+        public PointDTO CreatePoint(PointDTO point)
         {
+            PointDTO savedPoint = null;
+
             if (point.Id == 0)
             {
-                this.pointsRepository.Save(point);
+                savedPoint = this.pointsRepository.Save(point);
             }
             else
             {
                 throw new ArgumentException("Point Id is assigned automatically. Cannot create point with the Id assigned.");
             }
+
+            return savedPoint;
         }
 
-        public void UpdatePoint(PointDTO point)
+        public PointDTO UpdatePoint(PointDTO point)
         {
+            PointDTO savedPoint = null;
+
             if (point.Id > 0)
             {
-                this.pointsRepository.Save(point);
+                savedPoint = this.pointsRepository.Save(point);
             }
             else
             {
                 throw new ArgumentException("Point Id must be an integer greater than 0.");
             }
+
+            return savedPoint;
         }
 
         public void DeletePoint(int pointId)

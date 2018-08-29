@@ -56,10 +56,6 @@ namespace DeliveryService.BLL
             {
                 route = this.routesRepository.Get(routeId);
             }
-            else
-            {
-                throw new ArgumentException("Route Id must be an integer greater than 0.");
-            }
 
             return route;
         }

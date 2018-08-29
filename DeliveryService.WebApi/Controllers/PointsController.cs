@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace DeliveryService.WebApi.Controllers
@@ -24,7 +25,7 @@ namespace DeliveryService.WebApi.Controllers
         // GET api/<controller>
         public IEnumerable<PointDTO> Get()
         {
-            return this.pointsConsumerService.GetPoints();
+            return this.pointsConsumerService.GetPoints()?? new List<PointDTO>();
         }
 
         // GET api/<controller>/5
@@ -34,22 +35,64 @@ namespace DeliveryService.WebApi.Controllers
 
             if (point == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                HttpResponseMessage message = new HttpResponseMessage()
+                {
+                    Content = new StringContent("Point Id not found."),
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+                
+
+                throw new HttpResponseException(message);
             }
 
             return point;
         }
 
         // POST api/<controller>
-        public void Post([FromBody]PointDTO point)
+        public IHttpActionResult Post([FromBody]PointDTO point)
         {
-            this.pointsAdminService.CreatePoint(point);
+            IHttpActionResult actionResult = null;
+
+            if (point.Id > 0)
+            {
+                return BadRequest("Point Id cannot be defined for new entity.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                PointDTO savedPoint = this.pointsAdminService.CreatePoint(point);
+                actionResult = Ok<PointDTO>(savedPoint);
+            }
+            else
+            {
+                actionResult = BadRequest(ModelState);
+            }
+
+            return actionResult;
         }
 
         // PUT api/<controller>/5
-        public void Put([FromBody]PointDTO point)
+        public IHttpActionResult Put([FromBody]PointDTO point)
         {
-            this.pointsAdminService.UpdatePoint(point);
+            IHttpActionResult actionResult = null;
+
+            if (point.Id <= 0)
+            {
+                return BadRequest("Point Id must be greater than 0.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                PointDTO savedPoint = this.pointsAdminService.UpdatePoint(point);
+
+                actionResult = Ok<PointDTO>(savedPoint);
+            }
+            else
+            {
+                actionResult = BadRequest(ModelState);
+            }
+
+            return actionResult;
         }
 
         // DELETE api/<controller>/5

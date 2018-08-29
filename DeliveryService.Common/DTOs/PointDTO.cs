@@ -15,5 +15,24 @@ namespace DeliveryService.Common.DTOs
         {
 
         }
+
+        public override bool Equals(object obj)
+        {
+            bool isEqual = true;
+
+            PointDTO point = obj as PointDTO;
+
+            if (point != null)
+            {
+                isEqual = isEqual && point.Id.Equals(this.Id);
+                isEqual = isEqual && String.Equals(point.Name, this.Name);
+            }
+            else
+            {
+                isEqual = false;
+            }
+
+            return isEqual;
+        }
     }
 }

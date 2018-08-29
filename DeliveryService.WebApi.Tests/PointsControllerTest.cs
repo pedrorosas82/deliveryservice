@@ -7,10 +7,13 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Results;
 
-namespace DeliveryService.BLL.Tests
+namespace DeliveryService.WebApi.Tests
 {
     [TestFixture]
     public class PointsControllerTest
@@ -66,7 +69,6 @@ namespace DeliveryService.BLL.Tests
             CollectionAssert.AreEquivalent(resultPoints, expectedResult);
         }
 
-
         [Test]
         public void GetPointTest()
         {
@@ -84,37 +86,99 @@ namespace DeliveryService.BLL.Tests
         public void GetNonExistingPointTest()
         {
             this.pointsConsumerService.GetPoint(Arg.Any<int>()).Returns((PointDTO)null);
-
-            PointDTO resultPoint = this.pointsController.Get(10);
-            PointDTO expectedResult = this.getMockedPoints().ElementAt(0);
+            var thrownException = Assert.Throws<HttpResponseException>(() => this.pointsController.Get(10));
 
             // assertions
-            this.pointsConsumerService.Received().GetPoint(10);
-            Assert.AreEqual(resultPoint, expectedResult);
+            this.pointsConsumerService.Received().GetPoint(Arg.Any<int>());
+            Assert.AreEqual(thrownException.Response.StatusCode, HttpStatusCode.BadRequest);
         }
 
         [Test]
         public void PostPointTest()
         {
-            throw new NotImplementedException();
+            PointDTO mockedPoint = this.getMockedPoints().ElementAt(0);
+            this.pointsAdminService.CreatePoint(Arg.Any<PointDTO>()).Returns(mockedPoint);
+
+            PointDTO point = new PointDTO()
+            {
+                Name = "A"
+            };
+
+            IHttpActionResult actionResult = this.pointsController.Post(point);
+            PointDTO expectedResult = mockedPoint;
+
+            // assertions
+            this.pointsAdminService.Received().CreatePoint(point);
+            OkNegotiatedContentResult<PointDTO> contentResult = actionResult as OkNegotiatedContentResult<PointDTO>;
+
+            Assert.IsNotNull(contentResult);
+            Assert.AreEqual(expectedResult, contentResult.Content);
         }
 
         [Test]
         public void PostInvalidPointTest()
         {
-            throw new NotImplementedException();
+            PointDTO mockedPoint = this.getMockedPoints().ElementAt(0);
+            this.pointsAdminService.UpdatePoint(Arg.Any<PointDTO>()).Returns(mockedPoint);
+
+            PointDTO point = new PointDTO()
+            {
+                Id = 1,
+                Name = "A"
+            };
+
+            IHttpActionResult actionResult = this.pointsController.Post(point);
+
+            // assertions
+            this.pointsAdminService.DidNotReceive().CreatePoint(point);
+            BadRequestErrorMessageResult badRequestMessage = actionResult as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(badRequestMessage);
+            Assert.AreEqual(badRequestMessage.Message, "Point Id cannot be defined for new entity.");
         }
 
         [Test]
         public void PutPointTest()
         {
-            throw new NotImplementedException();
+            PointDTO mockedPoint = this.getMockedPoints().ElementAt(0);
+            this.pointsAdminService.UpdatePoint(Arg.Any<PointDTO>()).Returns(mockedPoint);
+
+            PointDTO point = new PointDTO()
+            {
+                Id = 1,
+                Name = "A"
+            };
+
+            IHttpActionResult actionResult = this.pointsController.Put(point);
+            PointDTO expectedResult = mockedPoint;
+
+            // assertions
+            this.pointsAdminService.Received().UpdatePoint(point);
+            OkNegotiatedContentResult<PointDTO> contentResult = actionResult as OkNegotiatedContentResult<PointDTO>;
+
+            Assert.IsNotNull(contentResult);
+            Assert.AreEqual(expectedResult, contentResult.Content);
         }
 
         [Test]
         public void PutInvalidPointTest()
         {
-            throw new NotImplementedException();
+            PointDTO mockedPoint = this.getMockedPoints().ElementAt(0);
+            this.pointsAdminService.UpdatePoint(Arg.Any<PointDTO>()).Returns(mockedPoint);
+
+            PointDTO point = new PointDTO()
+            {
+                Name = "A"
+            };
+
+            IHttpActionResult actionResult = this.pointsController.Put(point);
+
+            // assertions
+            this.pointsAdminService.DidNotReceive().UpdatePoint(point);
+            BadRequestErrorMessageResult badRequestMessage = actionResult as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(badRequestMessage);
+            Assert.AreEqual(badRequestMessage.Message, "Point Id must be greater than 0.");
         }
 
         [Test]

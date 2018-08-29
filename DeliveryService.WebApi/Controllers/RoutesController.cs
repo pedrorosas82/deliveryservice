@@ -29,7 +29,20 @@ namespace DeliveryService.WebApi.Controllers
         // GET api/<controller>/5
         public RouteDTO Get(int id)
         {
-            return this.routesConsumerService.GetRoute(id);
+            RouteDTO route = this.routesConsumerService.GetRoute(id);
+
+            if (route == null)
+            {
+                HttpResponseMessage message = new HttpResponseMessage()
+                {
+                    Content = new StringContent("Route Id not found."),
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+
+                throw new HttpResponseException(message);
+            }
+
+            return route;
         }
 
         // POST api/<controller>

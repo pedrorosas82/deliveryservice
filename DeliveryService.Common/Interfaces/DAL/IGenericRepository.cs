@@ -12,7 +12,7 @@ namespace DeliveryService.Common.Interfaces.DAL
         IEnumerable<DTO> ListAll();
         DTO Get(int entityId);
 
-        void Save(DTO model);
+        DTO Save(DTO model);
         void Delete(int entityId);
     }
 }

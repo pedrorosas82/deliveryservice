@@ -18,6 +18,7 @@ namespace DeliveryService.DAL.Tests
         public void GetPointTest()
         {
 
+            throw new NotImplementedException();
 
             PointDTO expectedResult = new PointDTO()
             {
@@ -34,49 +35,49 @@ namespace DeliveryService.DAL.Tests
         [Test]
         public void GetNonExistentPointTest()
         {
-
+            throw new NotImplementedException();
         }
 
         [Test]
         public void GetPointsTest()
         {
-
+            throw new NotImplementedException();
         }
 
         [Test]
         public void GetPointsEmptyListTest()
         {
-
+            throw new NotImplementedException();
         }
 
         [Test]
         public void SaveExistingPointTest()
         {
-
+            throw new NotImplementedException();
         }
 
         [Test]
         public void SaveNewPointTest()
         {
-
+            throw new NotImplementedException();
         }
 
         [Test]
         public void DeleteNonExistentPointTest()
         {
-
+            throw new NotImplementedException();
         }
 
         [Test]
         public void DeleteExistentPointNotUsedInRoutesTest()
         {
-
+            throw new NotImplementedException();
         }
 
         [Test]
         public void DeleteExistentPointUsedInRoutesTest()
         {
-
+            throw new NotImplementedException();
         }
     }
 }

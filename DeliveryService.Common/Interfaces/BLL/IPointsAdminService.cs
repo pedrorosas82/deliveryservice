@@ -9,8 +9,8 @@ namespace DeliveryService.Common.Interfaces.BLL
 {
     public interface IPointsAdminService
     {
-        void CreatePoint(PointDTO point);
-        void UpdatePoint(PointDTO point);
+        PointDTO CreatePoint(PointDTO point);
+        PointDTO UpdatePoint(PointDTO point);
         void DeletePoint(int pointId);
     }
 }

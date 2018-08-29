@@ -19,28 +19,36 @@ namespace DeliveryService.BLL
             this.routesRepository = routesRepository;
         }
 
-        public void CreateRoute(RouteDTO route)
+        public RouteDTO CreateRoute(RouteDTO route)
         {
+            RouteDTO savedRoute = null;
+
             if (route.Id == 0)
             {
-                this.routesRepository.Save(route);
+                savedRoute = this.routesRepository.Save(route);
             }
             else
             {
                 throw new ArgumentException("Route Id is assigned automatically. Cannot create route with the Id assigned.");
             }
+
+            return savedRoute;
         }
 
-        public void UpdateRoute(RouteDTO route)
+        public RouteDTO UpdateRoute(RouteDTO route)
         {
+            RouteDTO savedRoute = null;
+
             if (route.Id > 0)
             {
-                this.routesRepository.Save(route);
+                savedRoute = this.routesRepository.Save(route);
             }
             else
             {
                 throw new ArgumentException("Route Id must be an integer greater than 0.");
             }
+
+            return savedRoute;
         }
 
         public void DeleteRoute(int routeId)

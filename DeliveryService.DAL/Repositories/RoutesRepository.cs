@@ -67,8 +67,10 @@ namespace DeliveryService.DAL.Repositories
             return routes;
         }
 
-        public void Save(RouteDTO route)
+        public RouteDTO Save(RouteDTO route)
         {
+            RouteDTO savedRoute = null;
+
             using (var context = new DeliveryServiceDbContext())
             {
                 Point sourceEntity = context.Points.Find(route.OriginId);
@@ -103,7 +105,11 @@ namespace DeliveryService.DAL.Repositories
                 }
 
                 context.SaveChanges();
+
+                savedRoute = typeMapper.Map<Route, RouteDTO>(routeEntity);
             }
+
+            return savedRoute;
         }
 
         public void Delete(int routeId)
