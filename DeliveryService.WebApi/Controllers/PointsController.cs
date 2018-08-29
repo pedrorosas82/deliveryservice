@@ -96,9 +96,18 @@ namespace DeliveryService.WebApi.Controllers
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            IHttpActionResult actionResult = null;
+
+            if (id <= 0)
+            {
+                return BadRequest("Point Id must be greater than 0.");
+            }
+
             this.pointsAdminService.DeletePoint(id);
+
+            return actionResult;
         }
     }
 }

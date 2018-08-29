@@ -23,7 +23,7 @@ namespace DeliveryService.WebApi.Controllers
         // GET api/<controller>
         public IEnumerable<RouteDTO> Get()
         {
-            return this.routesConsumerService.GetRoutes();
+            return this.routesConsumerService.GetRoutes() ?? new List<RouteDTO>();
         }
 
         // GET api/<controller>/5
@@ -46,21 +46,65 @@ namespace DeliveryService.WebApi.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]RouteDTO route)
+        public IHttpActionResult Post([FromBody]RouteDTO route)
         {
-            this.routesAdminService.CreateRoute(route);
+            IHttpActionResult actionResult = null;
+
+            if (route.Id > 0)
+            {
+                return BadRequest("Route Id cannot be defined for new entity.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                RouteDTO savedRoute = this.routesAdminService.CreateRoute(route);
+                actionResult = Ok<RouteDTO>(savedRoute);
+            }
+            else
+            {
+                actionResult = BadRequest(ModelState);
+            }
+
+            return actionResult;
         }
 
         // PUT api/<controller>/5
-        public void Put([FromBody]RouteDTO route)
+        public IHttpActionResult Put([FromBody]RouteDTO route)
         {
-            this.routesAdminService.UpdateRoute(route);
+            IHttpActionResult actionResult = null;
+
+            if (route.Id <= 0)
+            {
+                return BadRequest("Route Id must be greater than 0.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                RouteDTO savedRoute = this.routesAdminService.UpdateRoute(route);
+
+                actionResult = Ok<RouteDTO>(savedRoute);
+            }
+            else
+            {
+                actionResult = BadRequest(ModelState);
+            }
+
+            return actionResult;
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            IHttpActionResult actionResult = null;
+
+            if (id <= 0)
+            {
+                return BadRequest("Route Id must be greater than 0.");
+            }
+
             this.routesAdminService.DeleteRoute(id);
+
+            return actionResult;
         }
 
         // GET api/<<controller>>/origin/1/destination/2

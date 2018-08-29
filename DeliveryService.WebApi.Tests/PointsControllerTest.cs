@@ -184,13 +184,13 @@ namespace DeliveryService.WebApi.Tests
         [Test]
         public void DeletePointTest()
         {
-            throw new NotImplementedException();
-        }
+            this.pointsAdminService.When(x => x.DeletePoint(Arg.Any<int>()))
+                                   .Do(x => { return; });
 
-        [Test]
-        public void DeleteNonExistingPointTest()
-        {
-            throw new NotImplementedException();
+            this.pointsController.Delete(10);
+
+            // assertions
+            this.pointsAdminService.Received().DeletePoint(10);
         }
 
 
