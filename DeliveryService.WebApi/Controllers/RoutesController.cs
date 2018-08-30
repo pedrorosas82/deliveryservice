@@ -46,6 +46,7 @@ namespace DeliveryService.WebApi.Controllers
         }
 
         // POST api/<controller>
+        [Authorize(Roles = "Administrator")]
         public IHttpActionResult Post([FromBody]RouteDTO route)
         {
             IHttpActionResult actionResult = null;
@@ -69,6 +70,7 @@ namespace DeliveryService.WebApi.Controllers
         }
 
         // PUT api/<controller>/5
+        [Authorize(Roles = "Administrator")]
         public IHttpActionResult Put([FromBody]RouteDTO route)
         {
             IHttpActionResult actionResult = null;
@@ -93,6 +95,7 @@ namespace DeliveryService.WebApi.Controllers
         }
 
         // DELETE api/<controller>/5
+        [Authorize(Roles = "Administrator")]
         public IHttpActionResult Delete(int id)
         {
             IHttpActionResult actionResult = null;

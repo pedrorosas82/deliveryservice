@@ -49,6 +49,7 @@ namespace DeliveryService.WebApi.Controllers
         }
 
         // POST api/<controller>
+        [Authorize(Roles = "Administrator")]
         public IHttpActionResult Post([FromBody]PointDTO point)
         {
             if (point.Id > 0)
@@ -72,6 +73,7 @@ namespace DeliveryService.WebApi.Controllers
         }
 
         // PUT api/<controller>/5
+        [Authorize(Roles = "Administrator")]
         public IHttpActionResult Put([FromBody]PointDTO point)
         {
             if (point.Id <= 0)
@@ -96,6 +98,7 @@ namespace DeliveryService.WebApi.Controllers
         }
 
         // DELETE api/<controller>/5
+        [Authorize(Roles = "Administrator")]
         public IHttpActionResult Delete(int id)
         {
             if (id <= 0)

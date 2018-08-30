@@ -1,4 +1,5 @@
 ﻿using DeliveryService.DAL;
+using DeliveryService.Identity.DAL;
 using DeliveryService.WebApi.App_Start;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,9 @@ namespace DeliveryService.WebApi
     {
         protected void Application_Start()
         {
-            Database.SetInitializer<DeliveryServiceDbContext>(new DropCreateDatabaseIfModelChanges<DeliveryServiceDbContext>());
+            Database.SetInitializer<DeliveryServiceDbContext>(new CreateDatabaseIfNotExists<DeliveryServiceDbContext>());
+            Database.SetInitializer<DeliveryServiceIdentityDbContext>(new CreateDatabaseIfNotExists<DeliveryServiceIdentityDbContext>());
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }
