@@ -15,10 +15,7 @@ namespace DeliveryService.WebApi
     {
         protected void Application_Start()
         {
-            Database.SetInitializer<DeliveryServiceDbContext>(new CreateDatabaseIfNotExists<DeliveryServiceDbContext>());
-            Database.SetInitializer<DeliveryServiceIdentityDbContext>(new CreateDatabaseIfNotExists<DeliveryServiceIdentityDbContext>());
-
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+            
         }
     }
 }

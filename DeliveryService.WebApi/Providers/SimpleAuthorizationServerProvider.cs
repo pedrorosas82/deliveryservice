@@ -13,11 +13,19 @@ namespace DeliveryService.WebApi.Providers
 {
     public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
-        private IAuthenticationService authenticationService;
+        private Func<IAuthenticationService> authenticationServiceFactory;
 
-        public SimpleAuthorizationServerProvider(IAuthenticationService authenticationService)
+        private IAuthenticationService authenticationService
         {
-            this.authenticationService = authenticationService;
+            get
+            {
+                return this.authenticationServiceFactory.Invoke();
+            }
+        }
+
+        public SimpleAuthorizationServerProvider(Func<IAuthenticationService> authenticationServiceFactory)
+        {
+            this.authenticationServiceFactory = authenticationServiceFactory;
         }
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)

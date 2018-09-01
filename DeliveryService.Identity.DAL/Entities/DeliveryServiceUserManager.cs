@@ -23,9 +23,6 @@ namespace DeliveryService.Identity.DAL.Entities
             var manager = new DeliveryServiceUserManager(
                 new UserStore<DeliveryServiceUser>(context.Get<DeliveryServiceIdentityDbContext>()));
 
-            // optionally configure your manager
-            // ...
-
             return manager;
         }
     }

@@ -3,6 +3,7 @@ using DeliveryService.BLL;
 using DeliveryService.Common.Interfaces.BLL;
 using DeliveryService.Common.Interfaces.DAL;
 using DeliveryService.DAL.Repositories;
+using DeliveryService.Identity.DAL.Repositories;
 using DeliveryService.WebApi.App_Start;
 using System;
 
@@ -61,6 +62,8 @@ namespace DeliveryService.WebApi
             container.RegisterType<IRoutesAdminService, RoutesAdminService>();
             container.RegisterType<IRoutesConsumerService, RoutesConsumerService>();
             container.RegisterType<IRoutesCalculatorService, RoutesCalculatorService>();
+            container.RegisterType<IAuthenticationService, AuthenticationService>();
+            container.RegisterType<IAuthenticationRepository, AuthenticationRepository>();
         }
     }
 }

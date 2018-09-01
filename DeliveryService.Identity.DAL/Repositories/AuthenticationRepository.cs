@@ -1,5 +1,6 @@
 ﻿using DeliveryService.Common.DTOs;
 using DeliveryService.Common.Interfaces.DAL;
+using DeliveryService.Identity.DAL.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -14,17 +15,17 @@ namespace DeliveryService.Identity.DAL.Repositories
     {
         private DeliveryServiceIdentityDbContext dbContext;
 
-        private UserManager<IdentityUser> userManager;
+        private DeliveryServiceUserManager userManager;
 
         public AuthenticationRepository()
         {
             this.dbContext = new DeliveryServiceIdentityDbContext();
-            this.userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(this.dbContext));
+            this.userManager = new DeliveryServiceUserManager(new UserStore<DeliveryServiceUser>(this.dbContext));
         }
 
         public IdentityResult RegisterUser(UserDTO userModel)
         {
-            IdentityUser user = new IdentityUser
+            DeliveryServiceUser user = new DeliveryServiceUser
             {
                 UserName = userModel.Username
             };
@@ -32,16 +33,15 @@ namespace DeliveryService.Identity.DAL.Repositories
             return this.userManager.Create(user, userModel.Password);
         }
 
-        public Task<IdentityUser> FindUser(string userName, string password)
+        public IdentityUser FindUser(string username, string password)
         {
-            return await this.userManager.FindAsync(userName, password);
+            return this.userManager.FindAsync(username, password).Result;
         }
 
         public void Dispose()
         {
             this.dbContext.Dispose();
             this.userManager.Dispose();
-
         }
     }
 }
