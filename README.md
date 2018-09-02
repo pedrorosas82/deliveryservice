@@ -14,7 +14,7 @@ For testing purposes and ease of use, the following endpoint provides an easy wa
 
 POST /api/v1/accounts/admins
 
-In the body please send the following JSON (replace the values for whatever you'd prefer):
+In its body, please send the following JSON (replace the values for whatever you'd prefer):
 {
   "userName": "your_username",
   "password": "your_password",
