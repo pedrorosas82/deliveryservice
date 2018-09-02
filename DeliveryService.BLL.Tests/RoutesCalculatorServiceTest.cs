@@ -18,7 +18,8 @@ namespace DeliveryService.BLL.Tests
         [SetUp]
         public void SetupBeforeEachTest()
         {
-            this.routesCalculatorService = new RoutesCalculatorService(this.getAllRoutes());
+            this.routesCalculatorService = new RoutesCalculatorService(new List<RouteDTO>());
+            this.routesCalculatorService.LoadAllRoutes(this.getAllRoutes());
         }
 
         [Test]
