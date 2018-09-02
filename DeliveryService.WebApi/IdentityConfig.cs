@@ -23,8 +23,8 @@ namespace DeliveryService.WebApi
         {
             ConfigureOAuth(app);
 
-            Database.SetInitializer<DeliveryServiceDbContext>(new DropCreateDatabaseAlways<DeliveryServiceDbContext>());
-            Database.SetInitializer<DeliveryServiceIdentityDbContext>(new DropCreateDatabaseAlways<DeliveryServiceIdentityDbContext>());
+            Database.SetInitializer<DeliveryServiceDbContext>(new CreateDatabaseIfNotExists<DeliveryServiceDbContext>());
+            Database.SetInitializer<DeliveryServiceIdentityDbContext>(new CreateDatabaseIfNotExists<DeliveryServiceIdentityDbContext>());
             
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
