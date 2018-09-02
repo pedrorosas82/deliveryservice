@@ -10,7 +10,7 @@ My favorite one is Postman.
 # API Authentication
 
 Some operations are protected for admins only.
-For testing purposes and ease of use, the following endpoint provides a easy way to create an admin user:
+For testing purposes and ease of use, the following endpoint provides an easy way to create an admin user:
 
 POST /api/v1/accounts/admins
 
