@@ -11,7 +11,7 @@ namespace DeliveryService.Common.Interfaces.BLL
 {
     public interface IAuthenticationService
     {
-        IdentityResult RegisterUser(UserDTO user);
+        IdentityResult RegisterAdminUser(UserDTO user);
         IdentityUser FindUser(string username, string password);
     }
 }

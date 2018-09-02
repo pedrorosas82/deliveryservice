@@ -1,12 +1,8 @@
-﻿using DeliveryService.Common;
-using DeliveryService.Common.DTOs;
+﻿using DeliveryService.Common.DTOs;
 using DeliveryService.Common.Interfaces.BLL;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace DeliveryService.WebApi.Controllers

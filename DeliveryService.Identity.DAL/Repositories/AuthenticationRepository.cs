@@ -13,35 +13,52 @@ namespace DeliveryService.Identity.DAL.Repositories
 {
     public class AuthenticationRepository : IAuthenticationRepository
     {
-        private DeliveryServiceIdentityDbContext dbContext;
-
-        private DeliveryServiceUserManager userManager;
-
         public AuthenticationRepository()
         {
-            this.dbContext = new DeliveryServiceIdentityDbContext();
-            this.userManager = new DeliveryServiceUserManager(new UserStore<DeliveryServiceUser>(this.dbContext));
+
         }
 
-        public IdentityResult RegisterUser(UserDTO userModel)
+        public IdentityResult RegisterAdminUser(UserDTO userModel)
         {
-            DeliveryServiceUser user = new DeliveryServiceUser
+            IdentityResult result;
+
+            DeliveryServiceUser userEntity = new DeliveryServiceUser
             {
                 UserName = userModel.Username
             };
 
-            return this.userManager.Create(user, userModel.Password);
+            using (var dbContext = new DeliveryServiceIdentityDbContext())
+            {
+                // create user
+                var userManager = new DeliveryServiceUserManager(new UserStore<DeliveryServiceUser>(dbContext));
+                result = userManager.Create(userEntity, userModel.Password);
+
+                // add to role
+                var roleManager = new RoleManager<DeliveryServiceRole>(new RoleStore<DeliveryServiceRole>(dbContext));
+                DeliveryServiceRole adminRole = roleManager.FindByName("Administrator");
+
+                if (adminRole == null)
+                {
+                    roleManager.Create(new DeliveryServiceRole { Name = "Administrator" });
+                }
+
+                userManager.AddToRole(userEntity.Id, "Administrator");
+            }
+
+            return result;
         }
 
         public IdentityUser FindUser(string username, string password)
         {
-            return this.userManager.FindAsync(username, password).Result;
-        }
+            IdentityUser result;
 
-        public void Dispose()
-        {
-            this.dbContext.Dispose();
-            this.userManager.Dispose();
+            using (var dbContext = new DeliveryServiceIdentityDbContext())
+            {
+                var userManager = new DeliveryServiceUserManager(new UserStore<DeliveryServiceUser>(dbContext));
+                result = userManager.Find(username, password);
+            }
+
+            return result;
         }
     }
 }

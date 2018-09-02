@@ -26,9 +26,9 @@ namespace DeliveryService.BLL
             return this.authenticationRepository.FindUser(username, password);
         }
 
-        public IdentityResult RegisterUser(UserDTO user)
+        public IdentityResult RegisterAdminUser(UserDTO user)
         {
-            return this.authenticationRepository.RegisterUser(user);
+            return this.authenticationRepository.RegisterAdminUser(user);
         }
     }
 }

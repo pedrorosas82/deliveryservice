@@ -19,21 +19,14 @@ namespace DeliveryService.WebApi
 {
     public class IdentityConfig
     {
-        //private IAuthenticationService authenticationService;
-
-        //public IdentityConfig(IAuthenticationService authenticationService)
-        //{
-        //    this.authenticationService = authenticationService;
-        //}
-
         public void Configuration(IAppBuilder app)
         {
-            Database.SetInitializer<DeliveryServiceDbContext>(new CreateDatabaseIfNotExists<DeliveryServiceDbContext>());
-            Database.SetInitializer<DeliveryServiceIdentityDbContext>(new CreateDatabaseIfNotExists<DeliveryServiceIdentityDbContext>());
-
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-
             ConfigureOAuth(app);
+
+            Database.SetInitializer<DeliveryServiceDbContext>(new DropCreateDatabaseAlways<DeliveryServiceDbContext>());
+            Database.SetInitializer<DeliveryServiceIdentityDbContext>(new DropCreateDatabaseAlways<DeliveryServiceIdentityDbContext>());
+            
+            GlobalConfiguration.Configure(WebApiConfig.Register);
         }
 
         private void ConfigureOAuth(IAppBuilder app)
