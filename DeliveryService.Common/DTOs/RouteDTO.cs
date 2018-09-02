@@ -7,6 +7,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DeliveryService.Common.DTOs
 {
+    /// <summary>
+    /// This class represents a route.
+    /// </summary>
     public class RouteDTO
     {
         public int Id { get; set; }

@@ -55,14 +55,18 @@ namespace DeliveryService.WebApi
             // container.LoadConfiguration();
 
             // Register your type's mappings here.
-            container.RegisterType<IPointsRepository, PointsRepository>();
-            container.RegisterType<IRoutesRepository, RoutesRepository>();
+
+            // services - BLL
             container.RegisterType<IPointsAdminService, PointsAdminService>();
             container.RegisterType<IPointsConsumerService, PointsConsumerService>();
             container.RegisterType<IRoutesAdminService, RoutesAdminService>();
             container.RegisterType<IRoutesConsumerService, RoutesConsumerService>();
             container.RegisterType<IRoutesCalculatorService, RoutesCalculatorService>();
             container.RegisterType<IAuthenticationService, AuthenticationService>();
+
+            // repositories - DAL
+            container.RegisterType<IPointsRepository, PointsRepository>();
+            container.RegisterType<IRoutesRepository, RoutesRepository>();
             container.RegisterType<IAuthenticationRepository, AuthenticationRepository>();
         }
     }

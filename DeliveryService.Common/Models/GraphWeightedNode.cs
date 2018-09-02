@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Common.Models
 {
+    /// <summary>
+    /// This class represents a destination point with the cost of getting there.
+    /// </summary>
     public class GraphWeightedNode
     {
         public int PointId { get; set; }

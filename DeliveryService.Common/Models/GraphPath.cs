@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Common.Models
 {
+    /// <summary>
+    /// This class represents a path in a graph.
+    /// </summary>
     public class GraphPath
     {
         private IList<int> pointIds;
@@ -34,6 +37,10 @@ namespace DeliveryService.Common.Models
             this.pointIds = new List<int>(path.PointIds);
         }
 
+        /// <summary>
+        /// Builds a string representation of a graph path.
+        /// </summary>
+        /// <returns>Returns string in the format { PointId1, PointId2, PointId3, ... }.</returns>
         public override string ToString()
         {
             StringBuilder routeBuilder = new StringBuilder("{");

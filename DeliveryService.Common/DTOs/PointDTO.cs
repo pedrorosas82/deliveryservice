@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Common.DTOs
 {
+    /// <summary>
+    /// This class represents a point.
+    /// </summary>
     public class PointDTO
     {
         public int Id { get; set; }

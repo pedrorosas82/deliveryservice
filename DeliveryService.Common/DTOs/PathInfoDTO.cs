@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.Common.DTOs
 {
+    /// <summary>
+    /// This class represents a path in the graph.
+    /// </summary>
     public class PathInfoDTO
     {
         public IList<int> PointIds { get; set; }

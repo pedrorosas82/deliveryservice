@@ -24,7 +24,7 @@ namespace DeliveryService.BLL.Tests
         [Test]
         public void GetAllPathsExampleFromAtoB()
         {
-            IEnumerable<GraphPath> resultPaths = this.routesCalculatorService.GetAllPaths(1, 2);
+            IEnumerable<GraphPath> resultPaths = this.routesCalculatorService.GetAllNonDirectPaths(1, 2);
             IList<GraphPath> expectedPaths = this.getExpectedPathsFromAtoB();
 
             // assertions
@@ -80,7 +80,7 @@ namespace DeliveryService.BLL.Tests
         [Test]
         public void GetAllPathsNoDirectRoutes()
         {
-            IEnumerable<GraphPath> graphPaths = this.routesCalculatorService.GetAllPaths(1, 5);
+            IEnumerable<GraphPath> graphPaths = this.routesCalculatorService.GetAllNonDirectPaths(1, 5);
 
             // assertions
             Assert.AreEqual(graphPaths.Count(), 1, "Number of calculated routes does not match.");

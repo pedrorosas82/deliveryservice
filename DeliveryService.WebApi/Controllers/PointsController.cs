@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace DeliveryService.WebApi.Controllers
 {
+    [RoutePrefix("api/v1/points")]
     public class PointsController : ApiController
     {
         private IPointsConsumerService pointsConsumerService;
@@ -18,13 +19,22 @@ namespace DeliveryService.WebApi.Controllers
             this.pointsAdminService = adminService;
         }
 
-        // GET api/<controller>
+        /// <summary>
+        /// Returns the list of all points.
+        /// </summary>
+        /// <returns></returns>
+        [Route("")]
         public IEnumerable<PointDTO> Get()
         {
             return this.pointsConsumerService.GetPoints()?? new List<PointDTO>();
         }
 
-        // GET api/<controller>/5
+        /// <summary>
+        /// Returns the point with a specific Id.
+        /// </summary>
+        /// <param name="id">Point Id</param>
+        /// <returns>The point with the specified Id. If the point could not be found, 400 bad request is returned.</returns>
+        [Route("{id:int}")]
         public PointDTO Get(int id)
         {
             PointDTO point = this.pointsConsumerService.GetPoint(id);
@@ -44,8 +54,13 @@ namespace DeliveryService.WebApi.Controllers
             return point;
         }
 
-        // POST api/<controller>
+        /// <summary>
+        /// Creates a new point object.
+        /// </summary>
+        /// <param name="point">The point object.</param>
+        /// <returns>The newly created point object. If the point object is invalid, a 400 bad request is returned.</returns>
         [Authorize(Roles = "Administrator")]
+        [Route("")]
         public IHttpActionResult Post([FromBody]PointDTO point)
         {
             if (point.Id > 0)
@@ -68,8 +83,13 @@ namespace DeliveryService.WebApi.Controllers
             return actionResult;
         }
 
-        // PUT api/<controller>/5
+        /// <summary>
+        /// Updates an existing point.
+        /// </summary>
+        /// <param name="point">The point object to be updated.</param>
+        /// <returns>The updated point object.</returns>
         [Authorize(Roles = "Administrator")]
+        [Route("")]
         public IHttpActionResult Put([FromBody]PointDTO point)
         {
             if (point.Id <= 0)
@@ -93,8 +113,13 @@ namespace DeliveryService.WebApi.Controllers
             return actionResult;
         }
 
-        // DELETE api/<controller>/5
+        /// <summary>
+        /// Deletes an existing point.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>200 ok with no content if point is deleted.</returns>
         [Authorize(Roles = "Administrator")]
+        [Route("{id:int}")]
         public IHttpActionResult Delete(int id)
         {
             if (id <= 0)

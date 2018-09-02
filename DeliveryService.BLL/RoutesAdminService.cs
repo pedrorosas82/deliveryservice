@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.BLL
 {
+    /// <summary>
+    /// This class is a service that encapsulates the business logic related to create/update/delete operations for Routes.
+    /// </summary>
     public class RoutesAdminService : IRoutesAdminService
     {
         private IRoutesRepository routesRepository;
@@ -19,6 +22,11 @@ namespace DeliveryService.BLL
             this.routesRepository = routesRepository;
         }
 
+        /// <summary>
+        /// Creates a new route.
+        /// </summary>
+        /// <param name="route">The route data.</param>
+        /// <returns>The newly created route.</returns>
         public RouteDTO CreateRoute(RouteDTO route)
         {
             RouteDTO savedRoute = null;
@@ -35,6 +43,11 @@ namespace DeliveryService.BLL
             return savedRoute;
         }
 
+        /// <summary>
+        /// Updates an existing route.
+        /// </summary>
+        /// <param name="route">The route data.</param>
+        /// <returns>The updated route.</returns>
         public RouteDTO UpdateRoute(RouteDTO route)
         {
             RouteDTO savedRoute = null;
@@ -51,6 +64,10 @@ namespace DeliveryService.BLL
             return savedRoute;
         }
 
+        /// <summary>
+        /// Deletes an existing route.
+        /// </summary>
+        /// <param name="routeId">The route Id.</param>
         public void DeleteRoute(int routeId)
         {
             if (routeId > 0)

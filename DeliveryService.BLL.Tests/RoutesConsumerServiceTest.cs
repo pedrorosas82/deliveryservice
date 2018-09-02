@@ -98,7 +98,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.routesConsumerService.GetPaths(20, 4, 3));
 
             // assertions
-            this.routesCalculatorService.DidNotReceive().GetAllPaths(Arg.Any<int>(), Arg.Any<int>());
+            this.routesCalculatorService.DidNotReceive().GetAllNonDirectPaths(Arg.Any<int>(), Arg.Any<int>());
             Assert.That(thrownException.Message, Is.EqualTo("Origin Id 20 does not exist."));
         }
 
@@ -111,7 +111,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.routesConsumerService.GetPaths(1, 20, 3));
 
             // assertions
-            this.routesCalculatorService.DidNotReceive().GetAllPaths(Arg.Any<int>(), Arg.Any<int>());
+            this.routesCalculatorService.DidNotReceive().GetAllNonDirectPaths(Arg.Any<int>(), Arg.Any<int>());
             Assert.That(thrownException.Message, Is.EqualTo("Destination Id 20 does not exist."));
         }
 
@@ -192,7 +192,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.routesConsumerService.GetPaths(1, 2, 3));
 
             // assertions
-            this.routesCalculatorService.DidNotReceive().GetAllPaths(Arg.Any<int>(), Arg.Any<int>());
+            this.routesCalculatorService.DidNotReceive().GetAllNonDirectPaths(Arg.Any<int>(), Arg.Any<int>());
             Assert.That(thrownException.Message, Is.EqualTo("Origin Id 1 does not exist."));
         }
 
@@ -210,7 +210,7 @@ namespace DeliveryService.BLL.Tests
             var thrownException = Assert.Throws<ArgumentException>(() => this.routesConsumerService.GetPaths(1, 2, 3));
 
             // assertions
-            this.routesCalculatorService.DidNotReceive().GetAllPaths(Arg.Any<int>(), Arg.Any<int>());
+            this.routesCalculatorService.DidNotReceive().GetAllNonDirectPaths(Arg.Any<int>(), Arg.Any<int>());
             Assert.That(thrownException.Message, Is.EqualTo("Origin Id 1 does not exist."));
         }
 

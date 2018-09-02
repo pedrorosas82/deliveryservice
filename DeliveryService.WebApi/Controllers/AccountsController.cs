@@ -5,6 +5,7 @@ using System.Web.Http;
 
 namespace DeliveryService.WebApi.Controllers
 {
+    [RoutePrefix("api/v1/accounts")]
     public class AccountsController : ApiController
     {
         private IAuthenticationService authenticationService;
@@ -14,9 +15,14 @@ namespace DeliveryService.WebApi.Controllers
             this.authenticationService = authenticationService;
         }
 
-        // POST api/Account/Register
+        /// <summary>
+        /// This action is just for demonstration purposes and would never be available this way in production.
+        /// It creates a new admin user in the Identity Provider.
+        /// </summary>
+        /// <param name="userModel">The user data.</param>
+        /// <returns>200 ok in case of success.</returns>
         [AllowAnonymous]
-        [Route("RegisterAdmin")]
+        [Route("admins")]
         public IHttpActionResult RegisterAdmin(UserDTO userModel)
         {
             if (!ModelState.IsValid)

@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.BLL
 {
+    /// <summary>
+    /// This class is a service that encapsulates the business logic related to create/update/delete operations for Points.
+    /// </summary>
     public class PointsAdminService : IPointsAdminService
     {
         private IPointsRepository pointsRepository;
@@ -19,6 +22,11 @@ namespace DeliveryService.BLL
             this.pointsRepository = pointsRepository;
         }
 
+        /// <summary>
+        /// Creates a new point.
+        /// </summary>
+        /// <param name="point">The point data.</param>
+        /// <returns>The created point.</returns>
         public PointDTO CreatePoint(PointDTO point)
         {
             PointDTO savedPoint = null;
@@ -35,6 +43,11 @@ namespace DeliveryService.BLL
             return savedPoint;
         }
 
+        /// <summary>
+        /// Updates an existing point.
+        /// </summary>
+        /// <param name="point">The new point data.</param>
+        /// <returns>The updated point.</returns>
         public PointDTO UpdatePoint(PointDTO point)
         {
             PointDTO savedPoint = null;
@@ -51,6 +64,10 @@ namespace DeliveryService.BLL
             return savedPoint;
         }
 
+        /// <summary>
+        /// Deletes an existing point.
+        /// </summary>
+        /// <param name="pointId">The point Id.</param>
         public void DeletePoint(int pointId)
         {
             if (pointId > 0)

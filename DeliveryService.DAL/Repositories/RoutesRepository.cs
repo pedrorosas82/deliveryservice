@@ -118,8 +118,15 @@ namespace DeliveryService.DAL.Repositories
             {
                 Route routeEntity = context.Routes.Find(routeId);
 
-                context.Entry<Route>(routeEntity).State = EntityState.Deleted;
-                context.SaveChanges();
+                if (routeEntity != null)
+                {
+                    context.Entry<Route>(routeEntity).State = EntityState.Deleted;
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new ArgumentNullException("routeId", "The referenced point does not exist.");
+                }
             }
         }
     }

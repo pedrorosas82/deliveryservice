@@ -83,8 +83,15 @@ namespace DeliveryService.DAL.Repositories
             {
                 Point pointEntity = context.Points.Find(pointId);
 
-                context.Entry<Point>(pointEntity).State = EntityState.Deleted;
-                context.SaveChanges();
+                if (pointEntity != null)
+                {
+                    context.Entry<Point>(pointEntity).State = EntityState.Deleted;
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new ArgumentNullException("pointId", "The referenced point does not exist.");
+                }
             }
         }
     }

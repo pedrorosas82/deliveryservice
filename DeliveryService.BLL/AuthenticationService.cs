@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace DeliveryService.BLL
 {
+    /// <summary>
+    /// This class provides a service that encapsulates the business logic for the Identity Provider.
+    /// </summary>
     public class AuthenticationService : IAuthenticationService
     {
         private IAuthenticationRepository authenticationRepository;
@@ -21,16 +24,32 @@ namespace DeliveryService.BLL
             this.authenticationRepository = authenticationRepository;
         }
 
+        /// <summary>
+        /// Searches for a user with the provided credentials.
+        /// </summary>
+        /// <param name="username">The username</param>
+        /// <param name="password">The password</param>
+        /// <returns>An identity of the user. If no match is found, returns null.</returns>
         public IdentityUser FindUser(string username, string password)
         {
             return this.authenticationRepository.FindUser(username, password);
         }
 
+        /// <summary>
+        /// Returns the list of all roles assigned to a user.
+        /// </summary>
+        /// <param name="userId">The user Id.</param>
+        /// <returns>The list of role names the user is enrolled.</returns>
         public ICollection<string> GetUserRoles(string userId)
         {
             return this.authenticationRepository.GetUserRoles(userId);
         }
 
+        /// <summary>
+        /// Creates a new user with the "Administrator" role.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public IdentityResult RegisterAdminUser(UserDTO user)
         {
             return this.authenticationRepository.RegisterAdminUser(user);
