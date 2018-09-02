@@ -51,3 +51,11 @@ POST /api/v1/points - save new points
 PUT /api/v1/points - update existing points
 
 DEL /api/v1/points/1 - delete point 1
+
+
+# Unit Testing
+
+Both projects DeliveryService.BLL and DeliveryService.WebApi are fully covered by automated unit tests.
+These tests were built over the NUnit framework, please use any compatible tool to run the tests.
+
+For coverage, AxoCover can be used to get the metrics.
