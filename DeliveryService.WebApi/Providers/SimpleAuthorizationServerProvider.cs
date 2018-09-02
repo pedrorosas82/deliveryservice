@@ -54,9 +54,9 @@ namespace DeliveryService.WebApi.Providers
                 IList<Claim> claims = new List<Claim>();
                 claims.Add(new Claim(ClaimTypes.Name, context.UserName));
 
-                foreach (IdentityUserRole role in user.Roles)
+                foreach (string roleName in this.authenticationService.GetUserRoles(user.Id))
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
+                    claims.Add(new Claim(ClaimTypes.Role, roleName));
                 }
 
                 var claimsIdentity = new ClaimsIdentity(claims, context.Options.AuthenticationType);

@@ -13,5 +13,6 @@ namespace DeliveryService.Common.Interfaces.DAL
     {
         IdentityResult RegisterAdminUser(UserDTO user);
         IdentityUser FindUser(string username, string password);
+        ICollection<string> GetUserRoles(string userId);
     }
 }

@@ -60,5 +60,18 @@ namespace DeliveryService.Identity.DAL.Repositories
 
             return result;
         }
+
+        public ICollection<string> GetUserRoles(string userId)
+        {
+            IList<string> userRoles = new List<string>();
+
+            using (var dbContext = new DeliveryServiceIdentityDbContext())
+            {
+                var userManager = new DeliveryServiceUserManager(new UserStore<DeliveryServiceUser>(dbContext));
+                userRoles = userManager.GetRoles(userId);
+            }
+
+            return userRoles;
+        }
     }
 }
