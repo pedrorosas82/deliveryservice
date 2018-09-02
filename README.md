@@ -6,6 +6,31 @@ To use a database filled with some example data, please copy the files under the
 
 Start the application and use a tool of your choice to build queries to the API. My favorite one is Postman.
 
+# API Authentication
+
+Some operations are protected for admins only.
+For testing purposes and ease of use, the following endpoint provides a easy way to create an admin user:
+
+POST /api/v1/accounts/admins
+
+In the body please send the following JSON (replace the values for whatever you'd prefer):
+{
+  "userName": "your_username",
+  "password": "your_password",
+  "confirmPassword": "your_password"
+}
+
+The protected resources use the Bearer token authentication type. 
+To get a token, please invoke the following endpoint after creating the user:
+
+POST /api/v1/auth/token
+
+In its body please choose "x-www-form-urlenconded" with the following params:
+grant_type:password
+username: "your_username"
+password: "your_password"
+
+
 # API Examples
 
 GET /api/v1/routes - get all routes
