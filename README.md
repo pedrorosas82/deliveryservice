@@ -15,11 +15,13 @@ For testing purposes and ease of use, the following endpoint provides an easy wa
 POST /api/v1/accounts/admins
 
 In its body, please send the following JSON (replace the values for whatever you'd prefer):
+```
 {
   "userName": "your_username",
   "password": "your_password",
   "confirmPassword": "your_password"
 }
+```
 
 The protected resources use the Bearer token authentication type. 
 To get a token, please invoke the following endpoint after creating the user:
@@ -27,9 +29,11 @@ To get a token, please invoke the following endpoint after creating the user:
 POST /api/v1/auth/token
 
 In its body please choose "x-www-form-urlenconded" with the following params:
+```
 grant_type:password
 username: "your_username"
 password: "your_password"
+```
 
 
 # API Examples
