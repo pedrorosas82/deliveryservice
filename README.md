@@ -28,7 +28,7 @@ To get a token, please invoke the following endpoint after creating the user:
 
 POST /api/v1/auth/token
 
-In its body please choose "x-www-form-urlenconded" with the following params:
+In its body, please include the following params "x-www-form-urlenconded":
 ```
 grant_type:password
 username: "your_username"
