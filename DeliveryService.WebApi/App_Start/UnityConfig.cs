@@ -5,8 +5,9 @@ using DeliveryService.Common.Interfaces.DAL;
 using DeliveryService.DAL.Repositories;
 using DeliveryService.Identity.DAL.Repositories;
 using DeliveryService.WebApi.App_Start;
+using Neo4j.Driver.V1;
 using System;
-
+using System.Configuration;
 using Unity;
 
 namespace DeliveryService.WebApi
@@ -30,6 +31,15 @@ namespace DeliveryService.WebApi
         private static void RegisterInstances(UnityContainer container)
         {
             container.RegisterInstance<IMapper>(AutoMapperConfig.GetMapper());
+            registerNeo4jDriver(container);
+        }
+
+        private static void registerNeo4jDriver(UnityContainer container)
+        {
+            var url = ConfigurationManager.AppSettings["GraphDBUrl"];
+            var driver = GraphDatabase.Driver(url);
+
+            container.RegisterInstance<IDriver>(driver);
         }
 
         /// <summary>
