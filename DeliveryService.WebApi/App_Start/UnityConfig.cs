@@ -2,7 +2,7 @@ using AutoMapper;
 using DeliveryService.BLL;
 using DeliveryService.Common.Interfaces.BLL;
 using DeliveryService.Common.Interfaces.DAL;
-using DeliveryService.DAL.Repositories;
+using DeliveryService.Neo4j.DAL.Repositories;
 using DeliveryService.Identity.DAL.Repositories;
 using DeliveryService.WebApi.App_Start;
 using Neo4j.Driver.V1;
